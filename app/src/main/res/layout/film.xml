@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
-        app:cardBackgroundColor="@color/teal_700"
+        app:cardBackgroundColor="@color/card_background"
         app:cardCornerRadius="10dp">
 
         <LinearLayout
@@ -28,7 +28,7 @@
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="4dp"
                 tools:text="name"
                 android:maxLines="1"/>
 
