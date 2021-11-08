@@ -34,8 +34,10 @@
 
 
                     <EditText
+                        android:id="@+id/title_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:cursorVisible="false"
                         android:background="#FFFFFF"
                         android:hint="Search"
                         android:paddingStart="8dp" />
