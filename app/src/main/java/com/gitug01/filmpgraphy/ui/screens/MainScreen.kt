@@ -5,26 +5,28 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gitug01.filmpgraphy.R
 import com.gitug01.filmpgraphy.data.impl.FilmRepoImpl
 import com.gitug01.filmpgraphy.domain.entity.FilmEntity
+import com.gitug01.filmpgraphy.domain.entity.OnFilmClickListener
 import com.gitug01.filmpgraphy.domain.repo.FilmRepo
 import com.gitug01.filmpgraphy.ui.FilmsAdapter
 
-class MainScreen : Fragment() {
+class MainScreen : Fragment(), OnFilmClickListener{
 
     var recyclerView: RecyclerView? = null
     var recyclerView02: RecyclerView? = null
     var recyclerView03: RecyclerView? = null
     var recyclerView04: RecyclerView? = null
     var filmRepo: FilmRepo = FilmRepoImpl()
-    var adapter: FilmsAdapter = FilmsAdapter()
-    var adapter02: FilmsAdapter = FilmsAdapter()
-    var adapter03: FilmsAdapter = FilmsAdapter()
-    var adapter04: FilmsAdapter = FilmsAdapter()
+    var adapter: FilmsAdapter = FilmsAdapter(this)
+    var adapter02: FilmsAdapter = FilmsAdapter(this)
+    var adapter03: FilmsAdapter = FilmsAdapter(this)
+    var adapter04: FilmsAdapter = FilmsAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("@@@", "start")
@@ -108,5 +110,14 @@ class MainScreen : Fragment() {
         filmRepo.addFilmToSoon(FilmEntity(R.drawable.ic_launcher_background, "MySon", "7.0", 2020))
         filmRepo.addFilmToSoon(FilmEntity(R.drawable.ic_launcher_background, "MySon", "7.0", 2020))
         adapter04.setData(filmRepo.filmsSoon())
+    }
+
+    override fun onItemClicked(noteEntity: FilmEntity) {
+        Toast.makeText(context, "Toast", Toast.LENGTH_SHORT).show()
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragments_container, FilmFragment())
+            .addToBackStack(null)
+            .commit()
     }
 }
