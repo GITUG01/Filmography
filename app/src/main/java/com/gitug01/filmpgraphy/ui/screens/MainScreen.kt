@@ -51,6 +51,13 @@ class MainScreen : Fragment() {
     }
 
 
+    fun init() {
+        recyclerView = view?.findViewById(R.id.main_recycler)
+        recyclerView02 = view?.findViewById(R.id.main_recycler2)
+        recyclerView03 = view?.findViewById(R.id.main_recycler3)
+        recyclerView04 = view?.findViewById(R.id.main_recycler4)
+    }
+
     fun prepareToWorkWithRecyclerView() {
         recyclerView!!.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -70,13 +77,6 @@ class MainScreen : Fragment() {
         adapter02.setData(filmRepo.filmsTop())
         adapter03.setData(filmRepo.filmsSoon())
         adapter04.setData(filmRepo.filmsNow())
-    }
-
-    fun init() {
-        recyclerView = view?.findViewById(R.id.main_recycler)
-        recyclerView02 = view?.findViewById(R.id.main_recycler2)
-        recyclerView03 = view?.findViewById(R.id.main_recycler3)
-        recyclerView04 = view?.findViewById(R.id.main_recycler4)
     }
 
     fun addFilmsOnMainScreen() {

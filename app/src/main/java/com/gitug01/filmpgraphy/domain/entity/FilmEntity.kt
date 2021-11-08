@@ -1,8 +1,6 @@
 package com.gitug01.filmpgraphy.domain.entity
 
-import android.media.Image
-
-class FilmEntity(image: Int, name: String, rating: String, year: Int){
+class FilmEntity(image: Int, name: String, rating: String, year: Int) {
 
     var id: Int? = null
     var image: Int? = null
