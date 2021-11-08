@@ -8,9 +8,11 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.gitug01.filmpgraphy.R
 import com.gitug01.filmpgraphy.domain.entity.FilmEntity
+import com.gitug01.filmpgraphy.domain.entity.OnFilmClickListener
 
 class FilmsAdapter : RecyclerView.Adapter<FilmViewHolder>() {
     private var data: List<FilmEntity>? = null
+    private var onFilmClickListener: OnFilmClickListener? = null
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(data: List<FilmEntity>){
@@ -29,6 +31,9 @@ class FilmsAdapter : RecyclerView.Adapter<FilmViewHolder>() {
         holder.year.text = film.year.toString()
         holder.rating.text = film.rating
 
+        holder.filmCardView.setOnClickListener {
+            Toast.makeText(it.context, getItem(position).name, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun getItem(position: Int) = data!![position]
