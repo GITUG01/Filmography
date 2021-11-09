@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.RecyclerView
 import com.gitug01.filmpgraphy.R
 import com.gitug01.filmpgraphy.domain.entity.FilmEntity
@@ -29,6 +30,7 @@ class FilmsAdapter (onFilmClickListener: OnFilmClickListener): RecyclerView.Adap
         holder.name.text = film.name
         holder.year.text = film.year.toString()
         holder.rating.text = film.rating
+        holder.image.setImageResource(film.image!!)
 
         holder.filmCardView.setOnClickListener { onFilmClickListener.onItemClicked(getItem(position)) }
     }

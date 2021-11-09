@@ -82,16 +82,16 @@ class MainScreen : Fragment(), OnFilmClickListener{
     }
 
     fun addFilmsOnMainScreen() {
-        filmRepo.addFilm(FilmEntity(R.drawable.ic_launcher_background, "Family", "6.8", 2021))
-        filmRepo.addFilm(FilmEntity(R.drawable.ic_launcher_background, "Family2", "7.0", 2020))
-        filmRepo.addFilm(FilmEntity(R.drawable.ic_launcher_background, "Family3", "7.0", 2020))
+        filmRepo.addFilm(FilmEntity(R.drawable.image2, "Family", "6.8", 2021))
+        filmRepo.addFilm(FilmEntity(R.drawable.image, "Family2", "7.0", 2020))
+        filmRepo.addFilm(FilmEntity(R.drawable.image2, "Family3", "7.0", 2020))
         filmRepo.addFilm(FilmEntity(R.drawable.ic_launcher_background, "Family4", "7.0", 2020))
         filmRepo.addFilm(FilmEntity(R.drawable.ic_launcher_background, "Family5", "7.0", 2020))
         filmRepo.addFilm(FilmEntity(R.drawable.ic_launcher_background, "Family6", "7.0", 2020))
         adapter.setData(filmRepo.films())
 
-        filmRepo.addFilmToTop(FilmEntity(R.drawable.ic_launcher_background, "Tor", "6.8", 2021))
-        filmRepo.addFilmToTop(FilmEntity(R.drawable.ic_launcher_background, "Tor", "7.0", 2020))
+        filmRepo.addFilmToTop(FilmEntity(R.drawable.image4, "Tor", "6.8", 2021))
+        filmRepo.addFilmToTop(FilmEntity(R.drawable.image5, "Tor", "7.0", 2020))
         filmRepo.addFilmToTop(FilmEntity(R.drawable.ic_launcher_background, "Tor", "7.0", 2020))
         filmRepo.addFilmToTop(FilmEntity(R.drawable.ic_launcher_background, "Tor", "7.0", 2020))
         filmRepo.addFilmToTop(FilmEntity(R.drawable.ic_launcher_background, "Tor", "7.0", 2020))

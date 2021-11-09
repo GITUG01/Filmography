@@ -1,5 +1,7 @@
 package com.gitug01.filmpgraphy.domain.entity
 
+import android.widget.ImageView
+
 class FilmEntity(image: Int, name: String, rating: String, year: Int) {
 
     var id: Int? = null
