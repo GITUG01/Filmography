@@ -29,7 +29,7 @@ class FilmsAdapter (onFilmClickListener: OnFilmClickListener): RecyclerView.Adap
         val film: FilmEntity = getItem(position)
         holder.name.text = film.name
         holder.year.text = film.year.toString()
-        holder.rating.text = film.rating
+        holder.rating.text = film.rating.toString()
         holder.image.setImageResource(film.image!!)
 
         holder.filmCardView.setOnClickListener { onFilmClickListener.onItemClicked(getItem(position)) }

@@ -15,8 +15,10 @@ import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.domain.entity.OnFilmClickListener
 import com.gitug01.filmpgraphy.domain.repo.FilmRepo
 import com.gitug01.filmpgraphy.ui.FilmsAdapter
+import com.gitug01.filmpgraphy.ui.main.MainActivity
 
-class MainScreen : Fragment(), OnFilmClickListener{
+class MainScreen : Fragment(), OnFilmClickListener {
+
 
     var recyclerView: RecyclerView? = null
     var recyclerView02: RecyclerView? = null
@@ -82,42 +84,45 @@ class MainScreen : Fragment(), OnFilmClickListener{
     }
 
     fun addFilmsOnMainScreen() {
-        filmRepo.addFilm(FilmEntity(R.drawable.image2, "Family", "6.8", 2021))
-        filmRepo.addFilm(FilmEntity(R.drawable.image, "Family2", "7.0", 2020))
-        filmRepo.addFilm(FilmEntity(R.drawable.image2, "Family3", "7.0", 2020))
-        filmRepo.addFilm(FilmEntity(R.drawable.ic_launcher_background, "Family4", "7.0", 2020))
-        filmRepo.addFilm(FilmEntity(R.drawable.ic_launcher_background, "Family5", "7.0", 2020))
-        filmRepo.addFilm(FilmEntity(R.drawable.ic_launcher_background, "Family6", "7.0", 2020))
+        filmRepo.addFilm(FilmEntity(R.drawable.image2, "Family", 6.8, 2021))
+        filmRepo.addFilm(FilmEntity(R.drawable.image, "Family2", 4.0, 2020))
+        filmRepo.addFilm(FilmEntity(R.drawable.image2, "Family3", 7.0, 2020))
+        filmRepo.addFilm(FilmEntity(R.drawable.ic_launcher_background, "Family4", 7.0, 2020))
+        filmRepo.addFilm(FilmEntity(R.drawable.ic_launcher_background, "Family5", 7.0, 2020))
+        filmRepo.addFilm(FilmEntity(R.drawable.ic_launcher_background, "Family6", 7.0, 2020))
         adapter.setData(filmRepo.films())
 
-        filmRepo.addFilmToTop(FilmEntity(R.drawable.image4, "Tor", "6.8", 2021))
-        filmRepo.addFilmToTop(FilmEntity(R.drawable.image5, "Tor", "7.0", 2020))
-        filmRepo.addFilmToTop(FilmEntity(R.drawable.ic_launcher_background, "Tor", "7.0", 2020))
-        filmRepo.addFilmToTop(FilmEntity(R.drawable.ic_launcher_background, "Tor", "7.0", 2020))
-        filmRepo.addFilmToTop(FilmEntity(R.drawable.ic_launcher_background, "Tor", "7.0", 2020))
-        filmRepo.addFilmToTop(FilmEntity(R.drawable.ic_launcher_background, "Tor", "7.0", 2020))
+        filmRepo.addFilmToTop(FilmEntity(R.drawable.image4, "Tor", 5.4, 2021))
+        filmRepo.addFilmToTop(FilmEntity(R.drawable.image5, "Tor", 10.0, 2020))
+        filmRepo.addFilmToTop(FilmEntity(R.drawable.ic_launcher_background, "Tor", 7.0, 2020))
+        filmRepo.addFilmToTop(FilmEntity(R.drawable.ic_launcher_background, "Tor", 7.0, 2020))
+        filmRepo.addFilmToTop(FilmEntity(R.drawable.ic_launcher_background, "Tor", 7.0, 2020))
+        filmRepo.addFilmToTop(FilmEntity(R.drawable.ic_launcher_background, "Tor", 7.0, 2020))
         adapter02.setData(filmRepo.filmsTop())
 
-        filmRepo.addFilmToNow(FilmEntity(R.drawable.ic_launcher_background, "Nowella", "6.8", 2021))
-        filmRepo.addFilmToNow(FilmEntity(R.drawable.ic_launcher_background, "Nowella", "7.0", 2020))
-        filmRepo.addFilmToNow(FilmEntity(R.drawable.ic_launcher_background, "Nowella", "7.0", 2020))
-        filmRepo.addFilmToNow(FilmEntity(R.drawable.ic_launcher_background, "Nowella", "7.0", 2020))
-        filmRepo.addFilmToNow(FilmEntity(R.drawable.ic_launcher_background, "Nowella", "7.0", 2020))
+        filmRepo.addFilmToNow(FilmEntity(R.drawable.ic_launcher_background, "Nowella", 6.9, 2021))
+        filmRepo.addFilmToNow(FilmEntity(R.drawable.ic_launcher_background, "Nowella", 7.0, 2020))
+        filmRepo.addFilmToNow(FilmEntity(R.drawable.ic_launcher_background, "Nowella", 7.0, 2020))
+        filmRepo.addFilmToNow(FilmEntity(R.drawable.ic_launcher_background, "Nowella", 7.0, 2020))
+        filmRepo.addFilmToNow(FilmEntity(R.drawable.ic_launcher_background, "Nowella", 7.0, 2020))
         adapter03.setData(filmRepo.filmsNow())
 
-        filmRepo.addFilmToSoon(FilmEntity(R.drawable.ic_launcher_background, "MySon", "6.8", 2021))
-        filmRepo.addFilmToSoon(FilmEntity(R.drawable.ic_launcher_background, "MySon", "7.0", 2020))
-        filmRepo.addFilmToSoon(FilmEntity(R.drawable.ic_launcher_background, "MySon", "7.0", 2020))
-        filmRepo.addFilmToSoon(FilmEntity(R.drawable.ic_launcher_background, "MySon", "7.0", 2020))
+        filmRepo.addFilmToSoon(FilmEntity(R.drawable.ic_launcher_background, "MySon", 6.8, 2021))
+        filmRepo.addFilmToSoon(FilmEntity(R.drawable.ic_launcher_background, "MySon", 7.0, 2020))
+        filmRepo.addFilmToSoon(FilmEntity(R.drawable.ic_launcher_background, "MySon", 7.0, 2020))
+        filmRepo.addFilmToSoon(FilmEntity(R.drawable.ic_launcher_background, "MySon", 7.0, 2020))
         adapter04.setData(filmRepo.filmsSoon())
     }
 
     override fun onItemClicked(noteEntity: FilmEntity) {
-        Toast.makeText(context, "Toast", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, noteEntity.image.toString(), Toast.LENGTH_SHORT).show()
+
+        FilmFragment().newInstance(noteEntity.image!!, noteEntity.year!!, noteEntity.rating!!, noteEntity.name!!)
 
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragments_container, FilmFragment())
             .addToBackStack(null)
             .commit()
     }
+
 }

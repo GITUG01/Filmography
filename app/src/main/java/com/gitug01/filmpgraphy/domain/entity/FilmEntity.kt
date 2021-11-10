@@ -1,13 +1,11 @@
 package com.gitug01.filmpgraphy.domain.entity
 
-import android.widget.ImageView
-
-class FilmEntity(image: Int, name: String, rating: String, year: Int) {
+class FilmEntity(image: Int, name: String, rating: Double, year: Int) {
 
     var id: Int? = null
     var image: Int? = null
     var name: String? = null
-    var rating: String? = null
+    var rating: Double? = null
     var year: Int? = null
 
     init {
