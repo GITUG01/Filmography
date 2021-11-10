@@ -8,7 +8,7 @@ import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.gitug01.filmpgraphy.R
-import com.gitug01.filmpgraphy.ui.screens.MainScreen
+import com.gitug01.filmpgraphy.ui.screens.MainFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
 
         editText?.findViewById<EditText>(R.id.title_edit_text)
 
-        replaceFragment(R.id.fragments_container, MainScreen(), false)
+        replaceFragment(R.id.fragments_container, MainFragment(), false)
 
         this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
     }

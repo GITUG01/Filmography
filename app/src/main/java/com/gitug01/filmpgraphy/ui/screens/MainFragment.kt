@@ -17,7 +17,7 @@ import com.gitug01.filmpgraphy.domain.repo.FilmRepo
 import com.gitug01.filmpgraphy.ui.FilmsAdapter
 import com.gitug01.filmpgraphy.ui.main.MainActivity
 
-class MainScreen : Fragment(), OnFilmClickListener {
+class MainFragment : Fragment(), OnFilmClickListener {
 
 
     var recyclerView: RecyclerView? = null
@@ -117,10 +117,10 @@ class MainScreen : Fragment(), OnFilmClickListener {
     override fun onItemClicked(noteEntity: FilmEntity) {
         Toast.makeText(context, noteEntity.image.toString(), Toast.LENGTH_SHORT).show()
 
-        FilmFragment().newInstance(noteEntity.image!!, noteEntity.year!!, noteEntity.rating!!, noteEntity.name!!)
+        val filmFragment: FilmFragment = FilmFragment().newInstance(noteEntity.image!!, noteEntity.year!!, noteEntity.rating!!, noteEntity.name!!)
 
         parentFragmentManager.beginTransaction()
-            .replace(R.id.fragments_container, FilmFragment())
+            .replace(R.id.fragments_container, filmFragment)
             .addToBackStack(null)
             .commit()
     }

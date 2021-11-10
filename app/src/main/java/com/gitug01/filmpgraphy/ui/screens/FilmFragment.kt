@@ -24,6 +24,7 @@ class FilmFragment : Fragment() {
     private var title: TextView? = null
     private var yearDescription: TextView? = null
     private var description: TextView? = null
+    private var actors: TextView? = null
     private var picture: ImageView? = null
 
     fun newInstance(image: Int, year: Int, rating: Double, name: String): FilmFragment {
@@ -34,6 +35,7 @@ class FilmFragment : Fragment() {
         args.putDouble(MainActivity().KEY_RATING, rating)
         args.putString(MainActivity().KEY_NAME, name)
         f.arguments = args
+        f.arguments
         return f
     }
 
@@ -47,24 +49,26 @@ class FilmFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
+        actors = view.findViewById(R.id.actors)
         title = view.findViewById(R.id.title_description)
         yearDescription = view.findViewById(R.id.year_description)
         description = view.findViewById(R.id.description)
         picture = view.findViewById(R.id.image)
 
-        val args = arguments
 
-        title?.text = args?.getString(MainActivity().KEY_NAME).toString()
-        yearDescription?.text = args?.getInt(MainActivity().KEY_YEAR).toString()
-        picture?.setImageResource(args?.getInt(MainActivity().KEY_IMAGE) as Int)
+
+        title?.text = arguments?.getString(MainActivity().KEY_NAME).toString()
+        yearDescription?.text = arguments?.getInt(MainActivity().KEY_YEAR).toString()
+        description?.text = "Hello, World!!!"
+        actors?.text = "Тимоти Шаламе, Ребекка Фергюсон, Оскар Айзек, Джош Бролин, Стеллан Скарсгард, " +
+                "Дейв Батиста, Стивен Маккинли Хендерсон, Зендея, Чан Чэньruen, Шарлотта Рэмплинг, Джейсон Момоа, Хавьер Бардем"
+        picture?.setImageResource(arguments?.getInt(MainActivity().KEY_IMAGE) as Int)
 
         video = view.findViewById(R.id.trailer)
 
         video?.setVideoURI(uri)
         video?.setMediaController(MediaController(context))
         video?.requestFocus(0)
-        video?.start()
 
         super.onViewCreated(view, savedInstanceState)
     }
