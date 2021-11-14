@@ -72,10 +72,11 @@ class MainFragment : Fragment(), OnFilmClickListener {
         recyclerView04!!.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        recyclerView!!.adapter = adapter
-        recyclerView02!!.adapter = adapter02
-        recyclerView03!!.adapter = adapter03
-        recyclerView04!!.adapter = adapter04
+
+        recyclerView?.let { it.adapter = adapter }
+        recyclerView02?.let { it.adapter = adapter02 }
+        recyclerView03?.let { it.adapter = adapter03 }
+        recyclerView04?.let { it.adapter = adapter04 }
 
         adapter.setData(filmRepo.films())
         adapter02.setData(filmRepo.filmsTop())

@@ -1,6 +1,8 @@
 package com.gitug01.filmpgraphy.ui.main
 
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
 import androidx.annotation.IdRes
@@ -10,7 +12,7 @@ import androidx.fragment.app.Fragment
 import com.gitug01.filmpgraphy.R
 import com.gitug01.filmpgraphy.ui.screens.MainFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() , View.OnTouchListener{
 
     val KEY_NAME = "NAME"
     val KEY_RATING = "rating"
@@ -42,5 +44,9 @@ class MainActivity : AppCompatActivity() {
             true -> supportFragmentManager.beginTransaction().replace(containerViewId, fragment)
                 .addToBackStack(null).commit()
         }
+    }
+
+    override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
+        TODO("Not yet implemented")
     }
 }
