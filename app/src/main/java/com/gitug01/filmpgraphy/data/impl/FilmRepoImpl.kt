@@ -34,33 +34,33 @@ class FilmRepoImpl() : FilmRepo{
     }
 
 
-    override fun addFilm(film: FilmEntity): Int {
-        var newId = ++counter
-        film.id = newId
-        cache.add(film)
-        return newId
-    }
-
-    override fun addFilmToSoon(film: FilmEntity): Int {
-        var newId = ++counter02
-        film.id = newId
-        cacheSoon.add(film)
-        return newId
-    }
-
-    override fun addFilmToTop(film: FilmEntity): Int {
-        var newId = ++counter03
-        film.id = newId
-        cacheTop.add(film)
-        return newId
-    }
-
-    override fun addFilmToNow(film: FilmEntity): Int {
-        var newId = ++counter04
-        film.id = newId
-        cacheNow.add(film)
-        return newId
-    }
+//    override fun addFilm(film: FilmEntity): Int {
+//        var newId = ++counter
+//        film.id = newId
+//        cache.add(film)
+//        return newId
+//    }
+//
+//    override fun addFilmToSoon(film: FilmEntity): Int {
+//        var newId = ++counter02
+//        film.id = newId
+//        cacheSoon.add(film)
+//        return newId
+//    }
+//
+//    override fun addFilmToTop(film: FilmEntity): Int {
+//        var newId = ++counter03
+//        film.id = newId
+//        cacheTop.add(film)
+//        return newId
+//    }
+//
+//    override fun addFilmToNow(film: FilmEntity): Int {
+//        var newId = ++counter04
+//        film.id = newId
+//        cacheNow.add(film)
+//        return newId
+//    }
 
     override fun removeFilm(id: Int) {
         cache.removeAt(id)
