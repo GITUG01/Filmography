@@ -15,7 +15,6 @@ import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.domain.entity.OnFilmClickListener
 import com.gitug01.filmpgraphy.domain.repo.FilmRepo
 import com.gitug01.filmpgraphy.ui.FilmsAdapter
-import com.gitug01.filmpgraphy.ui.main.MainActivity
 
 class MainFragment : Fragment(), OnFilmClickListener {
 

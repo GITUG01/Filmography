@@ -32,7 +32,7 @@ class FilmsAdapter (onFilmClickListener: OnFilmClickListener): RecyclerView.Adap
         holder.rating.text = film.rating.toString()
         holder.image.setImageResource(film.image!!)
 
-        holder.filmCardView.setOnClickListener { onFilmClickListener.onItemClicked(getItem(position)) }
+//        holder.filmCardView.setOnClickListener { onFilmClickListener.onItemClicked(getItem(position)) }
     }
 
 private fun getItem(position: Int) = data!![position]
