@@ -1,4 +1,4 @@
-package com.gitug01.filmpgraphy.data.impl
+package com.gitug01.filmpgraphy.data.net
 
 import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.domain.repo.DBfilmRepo
