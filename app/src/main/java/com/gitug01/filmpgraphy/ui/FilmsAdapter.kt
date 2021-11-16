@@ -17,7 +17,7 @@ class FilmsAdapter (onFilmClickListener: OnFilmClickListener): RecyclerView.Adap
     @SuppressLint("NotifyDataSetChanged")
     fun setData(data: List<FilmEntity>) {
         this.data = ArrayList(data)
-        notifyDataSetChanged()
+//        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmViewHolder {
@@ -27,9 +27,9 @@ class FilmsAdapter (onFilmClickListener: OnFilmClickListener): RecyclerView.Adap
 
     override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
         val film: FilmEntity = getItem(position)
-        holder.name.text = film.name
-        holder.year.text = film.year.toString()
-        holder.rating.text = film.rating.toString()
+        holder.name.text = film.original_title
+        holder.year.text = film.release_date.toString()
+        holder.rating.text = film.vote_average.toString()
         holder.image.setImageResource(film.image!!)
 
 //        holder.filmCardView.setOnClickListener { onFilmClickListener.onItemClicked(getItem(position)) }

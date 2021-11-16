@@ -1,5 +1,6 @@
 package com.gitug01.filmpgraphy.ui.screens
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import com.gitug01.filmpgraphy.ui.FilmsAdapter
 
 class MainFragment : Fragment(), OnFilmClickListener {
 
+    private val REQUEST_CODE_TOP = "discover/movie?sort_by=popularity.desc"
 
     var recyclerView: RecyclerView? = null
     var recyclerView02: RecyclerView? = null
@@ -28,6 +30,13 @@ class MainFragment : Fragment(), OnFilmClickListener {
     var adapter02: FilmsAdapter = FilmsAdapter(this)
     var adapter03: FilmsAdapter = FilmsAdapter(this)
     var adapter04: FilmsAdapter = FilmsAdapter(this)
+    private var setDataToTopFilms: SetDataToTopFilms? = null
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        this.setDataToTopFilms = context as SetDataToTopFilms
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("@@@", "start")
@@ -84,45 +93,36 @@ class MainFragment : Fragment(), OnFilmClickListener {
     }
 
     fun addFilmsOnMainScreen() {
-//        filmRepo.addFilm(FilmEntity(R.drawable.image2, "Family", 6.8, 2021))
-//        filmRepo.addFilm(FilmEntity(R.drawable.image, "Family2", 4.0, 2020))
-//        filmRepo.addFilm(FilmEntity(R.drawable.image2, "Family3", 7.0, 2020))
-//        filmRepo.addFilm(FilmEntity(R.drawable.ic_launcher_background, "Family4", 7.0, 2020))
-//        filmRepo.addFilm(FilmEntity(R.drawable.ic_launcher_background, "Family5", 7.0, 2020))
-//        filmRepo.addFilm(FilmEntity(R.drawable.ic_launcher_background, "Family6", 7.0, 2020))
-//        adapter.setData(filmRepo.films())
-//
-//        filmRepo.addFilmToTop(FilmEntity(R.drawable.image4, "Tor", 5.4, 2021))
-//        filmRepo.addFilmToTop(FilmEntity(R.drawable.image5, "Tor", 10.0, 2020))
-//        filmRepo.addFilmToTop(FilmEntity(R.drawable.ic_launcher_background, "Tor", 7.0, 2020))
-//        filmRepo.addFilmToTop(FilmEntity(R.drawable.ic_launcher_background, "Tor", 7.0, 2020))
-//        filmRepo.addFilmToTop(FilmEntity(R.drawable.ic_launcher_background, "Tor", 7.0, 2020))
-//        filmRepo.addFilmToTop(FilmEntity(R.drawable.ic_launcher_background, "Tor", 7.0, 2020))
-//        adapter02.setData(filmRepo.filmsTop())
-//
-//        filmRepo.addFilmToNow(FilmEntity(R.drawable.ic_launcher_background, "Nowella", 6.9, 2021))
-//        filmRepo.addFilmToNow(FilmEntity(R.drawable.ic_launcher_background, "Nowella", 7.0, 2020))
-//        filmRepo.addFilmToNow(FilmEntity(R.drawable.ic_launcher_background, "Nowella", 7.0, 2020))
-//        filmRepo.addFilmToNow(FilmEntity(R.drawable.ic_launcher_background, "Nowella", 7.0, 2020))
-//        filmRepo.addFilmToNow(FilmEntity(R.drawable.ic_launcher_background, "Nowella", 7.0, 2020))
-//        adapter03.setData(filmRepo.filmsNow())
-//
-//        filmRepo.addFilmToSoon(FilmEntity(R.drawable.ic_launcher_background, "MySon", 6.8, 2021))
-//        filmRepo.addFilmToSoon(FilmEntity(R.drawable.ic_launcher_background, "MySon", 7.0, 2020))
-//        filmRepo.addFilmToSoon(FilmEntity(R.drawable.ic_launcher_background, "MySon", 7.0, 2020))
-//        filmRepo.addFilmToSoon(FilmEntity(R.drawable.ic_launcher_background, "MySon", 7.0, 2020))
-//        adapter04.setData(filmRepo.filmsSoon())
+        Thread{
+            val r = setDataToTopFilms!!.setDataTop()
+            adapter02.setData(r)
+        }.start()
     }
 
     override fun onItemClicked(noteEntity: FilmEntity) {
-        Toast.makeText(context, noteEntity.image.toString(), Toast.LENGTH_SHORT).show()
-
-        val filmFragment: FilmFragment = FilmFragment().newInstance(noteEntity.image!!, noteEntity.year!!, noteEntity.rating!!, noteEntity.name!!)
-
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragments_container, filmFragment)
-            .addToBackStack(null)
-            .commit()
+//        Toast.makeText(context, noteEntity.image.toString(), Toast.LENGTH_SHORT).show()
+//
+//        val filmFragment: FilmFragment = FilmFragment().newInstance(
+//            noteEntity.image!!,
+//            noteEntity.year!!,
+//            noteEntity.rating!!,
+//            noteEntity.name!!
+//        )
+//
+//        parentFragmentManager.beginTransaction()
+//            .replace(R.id.fragments_container, filmFragment)
+//            .addToBackStack(null)
+//            .commit()
     }
 
+
+    interface SetDataToTopFilms{
+        fun setDataTop(): List<FilmEntity>
+    }
+
+    interface SetDataToNowFilms{
+        fun setDataNow(): List<FilmEntity>
+    }
 }
+
+

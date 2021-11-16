@@ -5,6 +5,7 @@ import com.gitug01.filmpgraphy.data.net.entity.O
 import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.domain.repo.DBFilmRepo
 import com.google.gson.Gson
+import org.jetbrains.annotations.TestOnly
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
@@ -44,5 +45,5 @@ class WebDBFilmRepoImpl : DBFilmRepo {
     }
 
     private fun getUrl(requestCode: String) =
-        URL("https://api.themoviedb.org/3/$requestCode&api_key=4d8766a8247a32c87963478c66ea350b")
+        URL("https://api.themoviedb.org/3$requestCode&api_key=4d8766a8247a32c87963478c66ea350b")
 }

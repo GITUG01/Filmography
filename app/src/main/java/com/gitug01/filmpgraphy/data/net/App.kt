@@ -9,5 +9,5 @@ class App : Application() {
 }
 
 
-val Context.app
+val Context.apps
     get() = applicationContext as App
