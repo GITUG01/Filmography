@@ -63,15 +63,7 @@ class MainFragment : Fragment(), OnFilmClickListener {
 
         init()
         prepareToWorkWithRecyclerView()
-
-        val startTime = System.currentTimeMillis()
-
-
         addFilmsOnMainScreen()
-
-        val endTime = System.currentTimeMillis()
-        Log.d("time", startTime.toString())
-        Log.d("time", endTime.toString())
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -107,21 +99,21 @@ class MainFragment : Fragment(), OnFilmClickListener {
     }
 
     fun addFilmsOnMainScreen() {
-        Thread{
+        Thread {
 
-            val r2 = setDataToForYouFilms!!.setDataForYou()
-            adapter.setData(r2)
+            Thread {
+                val r = setDataToTopFilms!!.setDataTop()
+                adapter02.setData(r)
 
-            val r = setDataToTopFilms!!.setDataTop()
-            adapter02.setData(r)
-
-            Thread{
                 val r1 = setDataToNowFilms!!.setDataNow()
                 adapter03.setData(r1)
 
                 val r3 = setDataToSoonFilms!!.setDataSoon()
                 adapter04.setData(r3)
             }.start()
+
+            val r2 = setDataToForYouFilms!!.setDataForYou()
+            adapter.setData(r2)
 
         }.start()
 
@@ -145,19 +137,19 @@ class MainFragment : Fragment(), OnFilmClickListener {
     }
 
 
-    interface SetDataToTopFilms{
+    interface SetDataToTopFilms {
         fun setDataTop(): List<FilmEntity>
     }
 
-    interface SetDataToNowFilms{
+    interface SetDataToNowFilms {
         fun setDataNow(): List<FilmEntity>
     }
 
-    interface SetDataToForYouFilms{
+    interface SetDataToForYouFilms {
         fun setDataForYou(): List<FilmEntity>
     }
 
-    interface SetDataToSoonFilms{
+    interface SetDataToSoonFilms {
         fun setDataSoon(): List<FilmEntity>
     }
 }
