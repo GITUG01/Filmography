@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener, MainFragment.Set
     MainFragment.SetDataToForYouFilms,
     MainFragment.SetDataToSoonFilms {
 
+    private val API_KEY = "4d8766a8247a32c87963478c66ea350b"
+
     private val dbFilmRepo: DBFilmRepo by lazy { apps.DBFilmRepo }
     private val REQUEST_CODE_TOP = "/discover/movie?sort_by=popularity.desc"
     private val REQUEST_CODE_NOW = "/discover/movie?primary_release_date.gte=2014-09-15&primary_release_date.lte=2014-10-22"
@@ -77,19 +79,19 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener, MainFragment.Set
     }
 
     override fun setDataTop(): List<FilmEntity> {
-        return dbFilmRepo.getFilmsForUserSync(REQUEST_CODE_TOP)
+        return dbFilmRepo.getFilmsForUserSync(API_KEY)
     }
 
     override fun setDataNow(): List<FilmEntity> {
-        return dbFilmRepo.getFilmsForUserSync(REQUEST_CODE_NOW)
+        return dbFilmRepo.getFilmsForUserSync(API_KEY)
     }
 
     override fun setDataForYou(): List<FilmEntity> {
-        return dbFilmRepo.getFilmsForUserSync(REQUEST_CODE_KIDS)
+        return dbFilmRepo.getFilmsForUserSync(API_KEY)
     }
 
     override fun setDataSoon(): List<FilmEntity> {
-        return dbFilmRepo.getFilmsForUserSync(REQUEST_CODE_RATED)
+        return dbFilmRepo.getFilmsForUserSync(API_KEY)
     }
 
 }

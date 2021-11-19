@@ -12,7 +12,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 class WebDBFilmRepoImpl : DBFilmRepo {
-    override fun getFilmsForUserSync(requestCode: String): List<FilmEntity> {
+    override fun getFilmsForUserSync(apiKey: String): List<FilmEntity> {
 
         val gson by lazy { Gson() }
 
@@ -20,7 +20,7 @@ class WebDBFilmRepoImpl : DBFilmRepo {
 
         var connection: HttpURLConnection? = null
         try {
-            connection = getUrl(requestCode).openConnection() as HttpURLConnection
+            connection = getUrl(apiKey).openConnection() as HttpURLConnection
             connection.requestMethod = "GET"
 
             val bufReader = BufferedReader(InputStreamReader(connection.inputStream))

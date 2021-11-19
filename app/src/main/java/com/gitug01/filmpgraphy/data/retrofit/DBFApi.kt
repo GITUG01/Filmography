@@ -8,6 +8,6 @@ import retrofit2.http.Query
 interface DBFApi {
 
     @GET("discover/movie?sort_by=popularity.desc")
-    fun getPopularFilms(@Query("api_key") requestCode: String): Call<O>
+    fun getPopularFilms(@Query("api_key") apiKey: String): Call<O>
 
 }

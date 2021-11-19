@@ -5,5 +5,5 @@ import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 
 interface DBFilmRepo {
     @WorkerThread
-    fun getFilmsForUserSync(requestCode: String): List<FilmEntity>
+    fun getFilmsForUserSync(apiKey: String): List<FilmEntity>
 }
