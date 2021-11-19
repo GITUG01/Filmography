@@ -102,19 +102,19 @@ class MainFragment : Fragment(), OnFilmClickListener {
         Thread {
 
             Thread {
-                val r = setDataToTopFilms!!.setDataTop()
-                adapter02.setData(r)
+                val r3 = setDataToSoonFilms!!.setDataSoon()
+                adapter04.setData(r3)
 
                 val r1 = setDataToNowFilms!!.setDataNow()
                 adapter03.setData(r1)
 
-                val r3 = setDataToSoonFilms!!.setDataSoon()
-                adapter04.setData(r3)
-            }.start()
+               }.start()
 
             val r2 = setDataToForYouFilms!!.setDataForYou()
             adapter.setData(r2)
 
+            val r = setDataToTopFilms!!.setDataTop()
+            adapter02.setData(r)
         }.start()
 
     }

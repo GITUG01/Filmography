@@ -15,17 +15,19 @@ import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.domain.repo.DBFilmRepo
 import com.gitug01.filmpgraphy.ui.screens.MainFragment
 
-class MainActivity : AppCompatActivity(), View.OnTouchListener, MainFragment.SetDataToTopFilms, MainFragment.SetDataToNowFilms,
+class MainActivity : AppCompatActivity(), View.OnTouchListener, MainFragment.SetDataToTopFilms,
+    MainFragment.SetDataToNowFilms,
     MainFragment.SetDataToForYouFilms,
     MainFragment.SetDataToSoonFilms {
 
     private val API_KEY = "4d8766a8247a32c87963478c66ea350b"
 
     private val dbFilmRepo: DBFilmRepo by lazy { apps.DBFilmRepo }
-    private val REQUEST_CODE_TOP = "/discover/movie?sort_by=popularity.desc"
-    private val REQUEST_CODE_NOW = "/discover/movie?primary_release_date.gte=2014-09-15&primary_release_date.lte=2014-10-22"
-    private val REQUEST_CODE_KIDS = "/discover/movie?certification_country=US&certification.lte=G&sort_by=popularity.desc"
-    private val REQUEST_CODE_RATED = "/discover/movie?certification_country=US&certification=R&sort_by=revenue.desc&with_cast=3896"
+
+    private val REQUEST_CODE_TOP = "popular"
+    private val REQUEST_CODE_NOW = "now_playing"
+    private val REQUEST_CODE_SOON = "upcoming"
+    private val REQUEST_CODE_RATED = "top_rated"
 
     val KEY_NAME = "NAME"
     val KEY_RATING = "rating"
@@ -79,19 +81,19 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener, MainFragment.Set
     }
 
     override fun setDataTop(): List<FilmEntity> {
-        return dbFilmRepo.getFilmsForUserSync(API_KEY)
+        return dbFilmRepo.getFilmsForUserSync(REQUEST_CODE_TOP, API_KEY)
     }
 
     override fun setDataNow(): List<FilmEntity> {
-        return dbFilmRepo.getFilmsForUserSync(API_KEY)
+        return dbFilmRepo.getFilmsForUserSync(REQUEST_CODE_NOW, API_KEY)
     }
 
     override fun setDataForYou(): List<FilmEntity> {
-        return dbFilmRepo.getFilmsForUserSync(API_KEY)
+        return dbFilmRepo.getFilmsForUserSync(REQUEST_CODE_RATED, API_KEY)
     }
 
     override fun setDataSoon(): List<FilmEntity> {
-        return dbFilmRepo.getFilmsForUserSync(API_KEY)
+        return dbFilmRepo.getFilmsForUserSync(REQUEST_CODE_SOON, API_KEY)
     }
 
 }
