@@ -17,9 +17,10 @@ class RetrofitDBFilmRepoImpl : DBFilmRepo {
     private var result = emptyList<FilmEntity>().toMutableList()
 
     override fun getFilmsForUserSync(requestCode: String, apiKey: String): List<FilmEntity> {
+        result = emptyList<FilmEntity>().toMutableList()
         val a = api.getPopularFilms(requestCode, apiKey)
-            .execute()
-            .body()
+        val b = a.execute()
+        val c = b.body()
             ?.results?.forEach {
                 result.add(it)
             }

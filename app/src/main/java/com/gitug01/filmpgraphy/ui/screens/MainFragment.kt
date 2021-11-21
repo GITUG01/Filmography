@@ -15,10 +15,15 @@ import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.domain.entity.OnFilmClickListener
 import com.gitug01.filmpgraphy.domain.repo.FilmRepo
 import com.gitug01.filmpgraphy.ui.FilmsAdapter
+import kotlin.concurrent.thread
+
+private val REQUEST_CODE_TOP = "popular"
+private val REQUEST_CODE_NOW = "now_playing"
+private val REQUEST_CODE_SOON = "upcoming"
+private val REQUEST_CODE_RATED = "top_rated"
 
 class MainFragment : Fragment(), OnFilmClickListener {
 
-    private val REQUEST_CODE_TOP = "discover/movie?sort_by=popularity.desc"
 
     var recyclerView: RecyclerView? = null
     var recyclerView02: RecyclerView? = null
@@ -41,6 +46,8 @@ class MainFragment : Fragment(), OnFilmClickListener {
         this.setDataToTopFilms = context as SetDataToTopFilms
         this.setDataToForYouFilms = context as SetDataToForYouFilms
         this.setDataToSoonFilms = context as SetDataToSoonFilms
+
+
 
     }
 
@@ -101,20 +108,29 @@ class MainFragment : Fragment(), OnFilmClickListener {
     fun addFilmsOnMainScreen() {
         Thread {
 
-            Thread {
-                val r3 = setDataToSoonFilms!!.setDataSoon()
-                adapter04.setData(r3)
+            val r = setDataToTopFilms!!.setDataTop(REQUEST_CODE_TOP)
+            val r1 = setDataToNowFilms!!.setDataNow(REQUEST_CODE_NOW)
+            val r2 = setDataToForYouFilms!!.setDataForYou(REQUEST_CODE_RATED)
+            val r3 = setDataToSoonFilms!!.setDataSoon(REQUEST_CODE_SOON)
 
-                val r1 = setDataToNowFilms!!.setDataNow()
+            activity?.runOnUiThread {
+                adapter02.setData(r)
                 adapter03.setData(r1)
+                adapter.setData(r2)
+                adapter04.setData(r3)
+            }
 
-               }.start()
+//
+//            val r2 = setDataToForYouFilms!!.setDataForYou()
+//            activity?.runOnUiThread {
+//                adapter.setData(r2)
+//            }
+//
+//            val r = setDataToTopFilms!!.setDataTop()
+//            activity?.runOnUiThread {
+//                adapter02.setData(r)
+//            }
 
-            val r2 = setDataToForYouFilms!!.setDataForYou()
-            adapter.setData(r2)
-
-            val r = setDataToTopFilms!!.setDataTop()
-            adapter02.setData(r)
         }.start()
 
     }
@@ -138,19 +154,19 @@ class MainFragment : Fragment(), OnFilmClickListener {
 
 
     interface SetDataToTopFilms {
-        fun setDataTop(): List<FilmEntity>
+        fun setDataTop(requestCode: String): List<FilmEntity>
     }
 
     interface SetDataToNowFilms {
-        fun setDataNow(): List<FilmEntity>
+        fun setDataNow(requestCode: String): List<FilmEntity>
     }
 
     interface SetDataToForYouFilms {
-        fun setDataForYou(): List<FilmEntity>
+        fun setDataForYou(requestCode: String): List<FilmEntity>
     }
 
     interface SetDataToSoonFilms {
-        fun setDataSoon(): List<FilmEntity>
+        fun setDataSoon(requestCode: String): List<FilmEntity>
     }
 }
 

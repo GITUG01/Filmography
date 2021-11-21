@@ -41,18 +41,15 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener, MainFragment.Set
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+
 //        Thread {
-//
-//            val films = dbFilmRepo.getFilmsForUserSync(REQUEST_CODE_TOP)
-//
+//            val films = dbFilmRepo.getFilmsForUserSync(REQUEST_CODE_NOW, API_KEY)
 //            val sb = StringBuilder()
 //            films.forEach {
 //                sb.appendLine(it.toString())
-//
-//                runOnUiThread { Log.d("@@@", "sb.length.toString())") }
-//
+//                runOnUiThread { Log.d("@@@", films.size.toString()) }
 //            }
-//
 //        }.start()
 
 
@@ -80,20 +77,20 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener, MainFragment.Set
         TODO("Not yet implemented")
     }
 
-    override fun setDataTop(): List<FilmEntity> {
-        return dbFilmRepo.getFilmsForUserSync(REQUEST_CODE_TOP, API_KEY)
+    override fun setDataTop(requestCode: String): List<FilmEntity> {
+        return dbFilmRepo.getFilmsForUserSync(requestCode, API_KEY)
     }
 
-    override fun setDataNow(): List<FilmEntity> {
-        return dbFilmRepo.getFilmsForUserSync(REQUEST_CODE_NOW, API_KEY)
+    override fun setDataForYou(requestCode: String): List<FilmEntity> {
+        return dbFilmRepo.getFilmsForUserSync(requestCode, API_KEY)
     }
 
-    override fun setDataForYou(): List<FilmEntity> {
-        return dbFilmRepo.getFilmsForUserSync(REQUEST_CODE_RATED, API_KEY)
+    override fun setDataNow(requestCode: String): List<FilmEntity> {
+        return dbFilmRepo.getFilmsForUserSync(requestCode, API_KEY)
     }
 
-    override fun setDataSoon(): List<FilmEntity> {
-        return dbFilmRepo.getFilmsForUserSync(REQUEST_CODE_SOON, API_KEY)
+    override fun setDataSoon(requestCode: String): List<FilmEntity> {
+        return dbFilmRepo.getFilmsForUserSync(requestCode, API_KEY)
     }
 
 }
