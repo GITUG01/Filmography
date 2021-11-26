@@ -2,6 +2,7 @@ package com.gitug01.filmpgraphy.ui.screens
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.MediaController
 import android.widget.TextView
 import android.widget.VideoView
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.gitug01.filmpgraphy.R
 import com.gitug01.filmpgraphy.ui.main.MainActivity
 
@@ -27,12 +29,12 @@ class FilmFragment : Fragment() {
     private var actors: TextView? = null
     private var picture: ImageView? = null
 
-    fun newInstance(image: Int, year: Int, rating: Double, name: String): FilmFragment {
+    fun newInstance(image: String, year: String, rating: String, name: String): FilmFragment {
         val f = FilmFragment()
         val args = Bundle()
-        args.putInt(MainActivity().KEY_IMAGE, image)
-        args.putInt(MainActivity().KEY_YEAR, year)
-        args.putDouble(MainActivity().KEY_RATING, rating)
+        args.putString(MainActivity().KEY_IMAGE, image)
+        args.putString(MainActivity().KEY_YEAR, year)
+        args.putString(MainActivity().KEY_RATING, rating)
         args.putString(MainActivity().KEY_NAME, name)
         f.arguments = args
         f.arguments
@@ -53,22 +55,20 @@ class FilmFragment : Fragment() {
         title = view.findViewById(R.id.title_description)
         yearDescription = view.findViewById(R.id.year_description)
         description = view.findViewById(R.id.description)
-        picture = view.findViewById(R.id.image)
+        picture = view.findViewById(R.id.fragment_film_image)
 
 
 
         title?.text = arguments?.getString(MainActivity().KEY_NAME).toString()
-        yearDescription?.text = arguments?.getInt(MainActivity().KEY_YEAR).toString()
+        Glide
+            .with(this)
+            .load("https://image.tmdb.org/t/p/w185/"+ (arguments?.getString(MainActivity().KEY_IMAGE)))
+            .into(picture!!)
+        yearDescription?.text = arguments?.getString(MainActivity().KEY_YEAR).toString()
         description?.text = "Hello, World!!!"
         actors?.text = "Тимоти Шаламе, Ребекка Фергюсон, Оскар Айзек, Джош Бролин, Стеллан Скарсгард, " +
                 "Дейв Батиста, Стивен Маккинли Хендерсон, Зендея, Чан Чэньruen, Шарлотта Рэмплинг, Джейсон Момоа, Хавьер Бардем"
-        picture?.setImageResource(arguments?.getInt(MainActivity().KEY_IMAGE) as Int)
 
-        video = view.findViewById(R.id.trailer)
-
-        video?.setVideoURI(uri)
-        video?.setMediaController(MediaController(context))
-        video?.requestFocus(0)
 
         super.onViewCreated(view, savedInstanceState)
     }

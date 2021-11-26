@@ -1,10 +1,10 @@
 package com.gitug01.filmpgraphy.ui.main
 
 import android.os.Bundle
-import android.view.MotionEvent
-import android.view.View
+import android.util.Log
 import android.view.WindowManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
@@ -12,13 +12,15 @@ import androidx.fragment.app.Fragment
 import com.gitug01.filmpgraphy.R
 import com.gitug01.filmpgraphy.data.net.apps
 import com.gitug01.filmpgraphy.domain.entity.FilmEntity
+import com.gitug01.filmpgraphy.domain.entity.OnFilmClickListener
 import com.gitug01.filmpgraphy.domain.repo.DBFilmRepo
 import com.gitug01.filmpgraphy.ui.screens.MainFragment
 
-class MainActivity : AppCompatActivity(), View.OnTouchListener, MainFragment.SetDataToTopFilms,
+class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
     MainFragment.SetDataToNowFilms,
     MainFragment.SetDataToForYouFilms,
-    MainFragment.SetDataToSoonFilms {
+    MainFragment.SetDataToSoonFilms
+{
 
     private val API_KEY = "4d8766a8247a32c87963478c66ea350b"
 
@@ -41,18 +43,6 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener, MainFragment.Set
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-
-//        Thread {
-//            val films = dbFilmRepo.getFilmsForUserSync(REQUEST_CODE_NOW, API_KEY)
-//            val sb = StringBuilder()
-//            films.forEach {
-//                sb.appendLine(it.toString())
-//                runOnUiThread { Log.d("@@@", films.size.toString()) }
-//            }
-//        }.start()
-
-
         editText?.findViewById<EditText>(R.id.title_edit_text)
 
         replaceFragment(R.id.fragments_container, MainFragment(), false)
@@ -71,10 +61,6 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener, MainFragment.Set
             true -> supportFragmentManager.beginTransaction().replace(containerViewId, fragment)
                 .addToBackStack(null).commit()
         }
-    }
-
-    override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
-        TODO("Not yet implemented")
     }
 
     override fun setDataTop(requestCode: String): List<FilmEntity> {

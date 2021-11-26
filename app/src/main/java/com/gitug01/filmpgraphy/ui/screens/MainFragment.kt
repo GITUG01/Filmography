@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,16 +14,16 @@ import com.gitug01.filmpgraphy.R
 import com.gitug01.filmpgraphy.data.impl.FilmRepoImpl
 import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.domain.entity.OnFilmClickListener
+import com.gitug01.filmpgraphy.domain.entity.OnLongFilmClickListener
 import com.gitug01.filmpgraphy.domain.repo.FilmRepo
 import com.gitug01.filmpgraphy.ui.FilmsAdapter
-import kotlin.concurrent.thread
 
 private val REQUEST_CODE_TOP = "popular"
 private val REQUEST_CODE_NOW = "now_playing"
 private val REQUEST_CODE_SOON = "upcoming"
 private val REQUEST_CODE_RATED = "top_rated"
 
-class MainFragment : Fragment(), OnFilmClickListener {
+class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
 
 
     var recyclerView: RecyclerView? = null
@@ -30,10 +31,10 @@ class MainFragment : Fragment(), OnFilmClickListener {
     var recyclerView03: RecyclerView? = null
     var recyclerView04: RecyclerView? = null
     var filmRepo: FilmRepo = FilmRepoImpl()
-    var adapter: FilmsAdapter = FilmsAdapter(this)
-    var adapter02: FilmsAdapter = FilmsAdapter(this)
-    var adapter03: FilmsAdapter = FilmsAdapter(this)
-    var adapter04: FilmsAdapter = FilmsAdapter(this)
+    var adapter: FilmsAdapter = FilmsAdapter(this, this)
+    var adapter02: FilmsAdapter = FilmsAdapter(this, this)
+    var adapter03: FilmsAdapter = FilmsAdapter(this, this)
+    var adapter04: FilmsAdapter = FilmsAdapter(this, this)
     private var setDataToTopFilms: SetDataToTopFilms? = null
     private var setDataToNowFilms: SetDataToNowFilms? = null
     private var setDataToForYouFilms: SetDataToForYouFilms? = null
@@ -120,36 +121,25 @@ class MainFragment : Fragment(), OnFilmClickListener {
                 adapter04.setData(r3)
             }
 
-//
-//            val r2 = setDataToForYouFilms!!.setDataForYou()
-//            activity?.runOnUiThread {
-//                adapter.setData(r2)
-//            }
-//
-//            val r = setDataToTopFilms!!.setDataTop()
-//            activity?.runOnUiThread {
-//                adapter02.setData(r)
-//            }
-
         }.start()
 
     }
 
 
-    override fun onItemClicked(noteEntity: FilmEntity) {
-//        Toast.makeText(context, noteEntity.image.toString(), Toast.LENGTH_SHORT).show()
-//
-//        val filmFragment: FilmFragment = FilmFragment().newInstance(
-//            noteEntity.image!!,
-//            noteEntity.release_date,
-//            noteEntity.vote_average,
-//            noteEntity.original_title
-//        )
+    override fun onItemClicked(filmEntity: FilmEntity) {
+        Toast.makeText(context, "Toast", Toast.LENGTH_SHORT).show()
 
-//        parentFragmentManager.beginTransaction()
-//            .replace(R.id.fragments_container, filmFragment)
-//            .addToBackStack(null)
-//            .commit()
+        val filmFragment: FilmFragment = FilmFragment().newInstance(
+            filmEntity.poster_path,
+            filmEntity.release_date,
+            filmEntity.vote_average,
+            filmEntity.original_title
+        )
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragments_container, filmFragment)
+            .addToBackStack(null)
+            .commit()
     }
 
 
@@ -167,6 +157,10 @@ class MainFragment : Fragment(), OnFilmClickListener {
 
     interface SetDataToSoonFilms {
         fun setDataSoon(requestCode: String): List<FilmEntity>
+    }
+
+    override fun onLongItemClick(filmEntity: FilmEntity) {
+        Toast.makeText(requireContext(), "LongClick", Toast.LENGTH_SHORT).show()
     }
 }
 

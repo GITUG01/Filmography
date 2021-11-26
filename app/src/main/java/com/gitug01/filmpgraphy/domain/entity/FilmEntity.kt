@@ -7,8 +7,4 @@ data class FilmEntity(
     var release_date: String,
     var poster_path: String,
 
-//    var name: String,
-//    var rating: Double,
-//    var year: Int
-//    var id: Int
 )

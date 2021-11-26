@@ -10,10 +10,12 @@ import com.bumptech.glide.Glide
 import com.gitug01.filmpgraphy.R
 import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.domain.entity.OnFilmClickListener
+import com.gitug01.filmpgraphy.domain.entity.OnLongFilmClickListener
 
-class FilmsAdapter (onFilmClickListener: OnFilmClickListener): RecyclerView.Adapter<FilmViewHolder>() {
+class FilmsAdapter (onFilmClickListener: OnFilmClickListener, onLongFilmClickListener: OnLongFilmClickListener): RecyclerView.Adapter<FilmViewHolder>() {
     private var data: List<FilmEntity>? = null
     private var onFilmClickListener: OnFilmClickListener = onFilmClickListener
+    private var onLongFilmClickListener: OnLongFilmClickListener = onLongFilmClickListener
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(data: List<FilmEntity>) {
@@ -34,6 +36,10 @@ class FilmsAdapter (onFilmClickListener: OnFilmClickListener): RecyclerView.Adap
         Glide.with(holder.image).load("https://image.tmdb.org/t/p/w185/"+film.poster_path).into(holder.image)
 
         holder.filmCardView.setOnClickListener { onFilmClickListener.onItemClicked(getItem(position)) }
+        holder.filmCardView.setOnLongClickListener {
+            onLongFilmClickListener.onLongItemClick(getItem(position))
+            true
+        }
     }
 
 private fun getItem(position: Int) = data!![position]
