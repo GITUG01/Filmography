@@ -1,5 +1,7 @@
 package com.gitug01.filmpgraphy.ui.main
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
@@ -15,6 +17,14 @@ import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.domain.entity.OnFilmClickListener
 import com.gitug01.filmpgraphy.domain.repo.DBFilmRepo
 import com.gitug01.filmpgraphy.ui.screens.MainFragment
+import android.os.VibrationEffect
+
+import android.os.Build
+
+import android.os.Vibrator
+
+
+
 
 class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
     MainFragment.SetDataToNowFilms,
@@ -60,6 +70,13 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
                 .commit()
             true -> supportFragmentManager.beginTransaction().replace(containerViewId, fragment)
                 .addToBackStack(null).commit()
+        }
+
+        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            vibrator.vibrate(500)
         }
     }
 

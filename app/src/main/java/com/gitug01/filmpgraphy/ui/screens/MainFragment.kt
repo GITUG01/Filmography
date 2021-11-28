@@ -1,13 +1,23 @@
 package com.gitug01.filmpgraphy.ui.screens
 
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.os.Vibrator
+import android.text.Layout
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gitug01.filmpgraphy.R
@@ -16,7 +26,17 @@ import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.domain.entity.OnFilmClickListener
 import com.gitug01.filmpgraphy.domain.entity.OnLongFilmClickListener
 import com.gitug01.filmpgraphy.domain.repo.FilmRepo
+import com.gitug01.filmpgraphy.ui.CustomDialog
 import com.gitug01.filmpgraphy.ui.FilmsAdapter
+import android.os.VibrationEffect
+
+import android.os.Build
+import androidx.core.content.ContextCompat
+
+import androidx.core.content.ContextCompat.getSystemService
+
+
+
 
 private val REQUEST_CODE_TOP = "popular"
 private val REQUEST_CODE_NOW = "now_playing"
@@ -47,7 +67,6 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
         this.setDataToTopFilms = context as SetDataToTopFilms
         this.setDataToForYouFilms = context as SetDataToForYouFilms
         this.setDataToSoonFilms = context as SetDataToSoonFilms
-
 
 
     }
@@ -161,6 +180,47 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
 
     override fun onLongItemClick(filmEntity: FilmEntity) {
         Toast.makeText(requireContext(), "LongClick", Toast.LENGTH_SHORT).show()
+        showAlertDialog()
+    }
+
+//    private fun showDialog(title: String) {
+//        val dialog = Dialog(activity)
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//        dialog.setCancelable(false)
+//        dialog.setContentView(R.layout.custom_layout)
+//        val body = dialog.findViewById(R.id.body) as TextView
+//        body.text = title
+//        val yesBtn = dialog.findViewById(R.id.yesBtn) as Button
+//        val noBtn = dialog.findViewById(R.id.noBtn) as TextView
+//        yesBtn.setOnClickListener {
+//            dialog.dismiss()
+//        }
+//        noBtn.setOnClickListener { dialog.dismiss() }
+//        dialog.show()
+//
+//    }
+
+    fun showAlertDialog(){
+        val builder = AlertDialog.Builder(requireContext())
+//        builder.setTitle("Androidly Alert")
+//        builder.setView(EditText(requireContext()))
+        builder.setView(R.layout.custom_film_note_dialog)
+//        builder.setMessage("We have a message")
+//builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
+
+        builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+            Toast.makeText(requireContext(), "Ok", Toast.LENGTH_SHORT).show()
+        }
+
+        builder.setNegativeButton(android.R.string.no) { dialog, which ->
+            Toast.makeText(requireContext(), "Cancel", Toast.LENGTH_SHORT).show()
+        }
+
+        builder.setNeutralButton("Maybe") { dialog, which ->
+            Toast.makeText(requireContext(),
+                "Maybe", Toast.LENGTH_SHORT).show()
+        }
+        builder.show()
     }
 }
 
