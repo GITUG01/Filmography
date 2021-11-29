@@ -7,22 +7,27 @@ import androidx.room.OnConflictStrategy.REPLACE
 interface NoteDao {
     @Insert(onConflict = REPLACE)
     fun add(noteEntity: NoteEntity)
+
     @Delete
     fun delete(noteEntity: NoteEntity)
+
     @Query("SELECT * FROM table_name WHERE film_name = :name")
     fun getFilmByName(name: String): NoteEntity
+
     @Query("SELECT * FROM table_name")
     fun getAll(): List<NoteEntity>
+
     @Query("DELETE FROM table_name")
     fun clear()
+
     @Query("UPDATE table_name SET note = :note WHERE film_name = :name")
     fun update(note: String, name: String)
 
     @Transaction
-    fun addOrUpdate(noteEntity: NoteEntity){
-        if (getFilmByName(noteEntity.filmName) == null){
+    fun addOrUpdate(noteEntity: NoteEntity) {
+        if (getFilmByName(noteEntity.filmName) == null) {
             add(noteEntity)
-        } else{
+        } else {
             update(noteEntity.note, noteEntity.filmName)
         }
     }

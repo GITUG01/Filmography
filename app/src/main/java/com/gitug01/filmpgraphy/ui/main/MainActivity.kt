@@ -18,6 +18,7 @@ import android.os.VibrationEffect
 import android.os.Build
 
 import android.os.Vibrator
+import android.util.Log
 import com.gitug01.filmpgraphy.data.RoomDb.NoteEntity
 import com.gitug01.filmpgraphy.data.RoomDb.NoteRepo
 
@@ -52,33 +53,6 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
         setContentView(R.layout.activity_main)
 
         editText?.findViewById<EditText>(R.id.title_edit_text)
-
-        val note = NoteEntity(0, "Marvel", "to watch")
-        val note1 = NoteEntity(0, "DC", "just watching")
-        val note3 = NoteEntity(0, "Fox", "already watched")
-        val note4 = NoteEntity(0, "DC", "GG")
-        val note5 = NoteEntity(0, "h", "ll")
-        val note6 = NoteEntity(0, "j", "jj")
-
-        val note7 = NoteEntity(0, "kjhgfd", "hello")
-        val note8 = NoteEntity(0, "j", "BYEE!")
-        Thread{
-            noteRepo.add(note)
-            noteRepo.add(note1)
-            noteRepo.add(note3)
-            noteRepo.add(note4)
-            noteRepo.add(note5)
-            noteRepo.add(note6)
-
-            noteRepo.addOrUpdate(note7)
-            noteRepo.addOrUpdate(note8)
-
-
-            var b = noteRepo.getAllFilms()
-            val c = noteRepo.get("Marve")
-            noteRepo.clear()
-        }.start()
-
 
         replaceFragment(R.id.fragments_container, MainFragment(), false)
 
@@ -121,11 +95,13 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
         return dbFilmRepo.getFilmsForUserSync(requestCode, API_KEY)
     }
 
-    override fun addOrUpdate() {
-        TODO("Not yet implemented")
+    override fun addOrUpdate(filmEntity: FilmEntity, note: String) {
+        noteRepo.addOrUpdate(NoteEntity(0, filmEntity.original_title, note))
+        val s = noteRepo.getAllFilms()
+        Log.d("@@@", s.toString())
     }
 
-    override fun delete() {
+    override fun delete(filmEntity: FilmEntity) {
         TODO("Not yet implemented")
     }
 
