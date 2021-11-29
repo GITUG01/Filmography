@@ -22,8 +22,8 @@ import android.os.VibrationEffect
 import android.os.Build
 
 import android.os.Vibrator
-
-
+import com.gitug01.filmpgraphy.data.RoomDb.NoteEntity
+import com.gitug01.filmpgraphy.data.RoomDb.NoteRepo
 
 
 class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,

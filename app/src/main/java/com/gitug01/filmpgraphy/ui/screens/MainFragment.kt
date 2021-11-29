@@ -202,14 +202,11 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
 
     fun showAlertDialog(){
         val builder = AlertDialog.Builder(requireContext())
-//        builder.setTitle("Androidly Alert")
-//        builder.setView(EditText(requireContext()))
         builder.setView(R.layout.custom_film_note_dialog)
-//        builder.setMessage("We have a message")
-//builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
 
         builder.setPositiveButton(android.R.string.yes) { dialog, which ->
             Toast.makeText(requireContext(), "Ok", Toast.LENGTH_SHORT).show()
+
         }
 
         builder.setNegativeButton(android.R.string.no) { dialog, which ->
