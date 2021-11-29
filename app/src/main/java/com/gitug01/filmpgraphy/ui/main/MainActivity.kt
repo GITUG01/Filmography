@@ -1,12 +1,9 @@
 package com.gitug01.filmpgraphy.ui.main
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowManager
 import android.widget.EditText
-import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +11,6 @@ import androidx.fragment.app.Fragment
 import com.gitug01.filmpgraphy.R
 import com.gitug01.filmpgraphy.data.net.apps
 import com.gitug01.filmpgraphy.domain.entity.FilmEntity
-import com.gitug01.filmpgraphy.domain.entity.OnFilmClickListener
 import com.gitug01.filmpgraphy.domain.repo.DBFilmRepo
 import com.gitug01.filmpgraphy.ui.screens.MainFragment
 import android.os.VibrationEffect
@@ -29,7 +25,8 @@ import com.gitug01.filmpgraphy.data.RoomDb.NoteRepo
 class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
     MainFragment.SetDataToNowFilms,
     MainFragment.SetDataToForYouFilms,
-    MainFragment.SetDataToSoonFilms
+    MainFragment.SetDataToSoonFilms,
+    MainFragment.WorkInRoom
 {
 
     private val API_KEY = "4d8766a8247a32c87963478c66ea350b"
@@ -48,12 +45,40 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
     val DATA_T0_FILM_FRAGMENT = "data_toFilm_fragment"
 
     private var editText: EditText? = null
+    private val noteRepo: NoteRepo by lazy { apps.noteRepo }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         editText?.findViewById<EditText>(R.id.title_edit_text)
+
+        val note = NoteEntity(0, "Marvel", "to watch")
+        val note1 = NoteEntity(0, "DC", "just watching")
+        val note3 = NoteEntity(0, "Fox", "already watched")
+        val note4 = NoteEntity(0, "DC", "GG")
+        val note5 = NoteEntity(0, "h", "ll")
+        val note6 = NoteEntity(0, "j", "jj")
+
+        val note7 = NoteEntity(0, "kjhgfd", "hello")
+        val note8 = NoteEntity(0, "j", "BYEE!")
+        Thread{
+            noteRepo.add(note)
+            noteRepo.add(note1)
+            noteRepo.add(note3)
+            noteRepo.add(note4)
+            noteRepo.add(note5)
+            noteRepo.add(note6)
+
+            noteRepo.addOrUpdate(note7)
+            noteRepo.addOrUpdate(note8)
+
+
+            var b = noteRepo.getAllFilms()
+            val c = noteRepo.get("Marve")
+            noteRepo.clear()
+        }.start()
+
 
         replaceFragment(R.id.fragments_container, MainFragment(), false)
 
@@ -94,6 +119,18 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
 
     override fun setDataSoon(requestCode: String): List<FilmEntity> {
         return dbFilmRepo.getFilmsForUserSync(requestCode, API_KEY)
+    }
+
+    override fun addOrUpdate() {
+        TODO("Not yet implemented")
+    }
+
+    override fun delete() {
+        TODO("Not yet implemented")
+    }
+
+    override fun clear() {
+        TODO("Not yet implemented")
     }
 
 }

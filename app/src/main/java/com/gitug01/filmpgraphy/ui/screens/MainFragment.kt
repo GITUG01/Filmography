@@ -34,8 +34,8 @@ import android.os.Build
 import androidx.core.content.ContextCompat
 
 import androidx.core.content.ContextCompat.getSystemService
-
-
+import com.gitug01.filmpgraphy.data.RoomDb.NoteRepo
+import com.gitug01.filmpgraphy.data.net.apps
 
 
 private val REQUEST_CODE_TOP = "popular"
@@ -59,6 +59,7 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
     private var setDataToNowFilms: SetDataToNowFilms? = null
     private var setDataToForYouFilms: SetDataToForYouFilms? = null
     private var setDataToSoonFilms: SetDataToSoonFilms? = null
+    private var workInRoom: WorkInRoom? = null
 
 
     override fun onAttach(context: Context) {
@@ -67,6 +68,7 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
         this.setDataToTopFilms = context as SetDataToTopFilms
         this.setDataToForYouFilms = context as SetDataToForYouFilms
         this.setDataToSoonFilms = context as SetDataToSoonFilms
+        this.workInRoom = context as WorkInRoom
 
 
     }
@@ -180,27 +182,10 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
 
     override fun onLongItemClick(filmEntity: FilmEntity) {
         Toast.makeText(requireContext(), "LongClick", Toast.LENGTH_SHORT).show()
-        showAlertDialog()
+        showAlertDialog(filmEntity)
     }
 
-//    private fun showDialog(title: String) {
-//        val dialog = Dialog(activity)
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-//        dialog.setCancelable(false)
-//        dialog.setContentView(R.layout.custom_layout)
-//        val body = dialog.findViewById(R.id.body) as TextView
-//        body.text = title
-//        val yesBtn = dialog.findViewById(R.id.yesBtn) as Button
-//        val noBtn = dialog.findViewById(R.id.noBtn) as TextView
-//        yesBtn.setOnClickListener {
-//            dialog.dismiss()
-//        }
-//        noBtn.setOnClickListener { dialog.dismiss() }
-//        dialog.show()
-//
-//    }
-
-    fun showAlertDialog(){
+    fun showAlertDialog(filmEntity: FilmEntity){
         val builder = AlertDialog.Builder(requireContext())
         builder.setView(R.layout.custom_film_note_dialog)
 
@@ -211,6 +196,7 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
 
         builder.setNegativeButton(android.R.string.no) { dialog, which ->
             Toast.makeText(requireContext(), "Cancel", Toast.LENGTH_SHORT).show()
+
         }
 
         builder.setNeutralButton("Maybe") { dialog, which ->
@@ -218,6 +204,12 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
                 "Maybe", Toast.LENGTH_SHORT).show()
         }
         builder.show()
+    }
+
+    interface WorkInRoom{
+        fun addOrUpdate(filmEntity: FilmEntity)
+        fun delete(filmEntity: FilmEntity)
+        fun clear()
     }
 }
 
