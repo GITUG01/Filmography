@@ -13,5 +13,5 @@ data class NoteEntity(
     @ColumnInfo(name = "film_name")
     val filmName: String,
 
-    val note: String,
+    val note: String
 )

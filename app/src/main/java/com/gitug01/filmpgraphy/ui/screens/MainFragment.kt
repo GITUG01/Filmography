@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import androidx.annotation.Nullable
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +20,7 @@ import com.gitug01.filmpgraphy.domain.entity.OnFilmClickListener
 import com.gitug01.filmpgraphy.domain.entity.OnLongFilmClickListener
 import com.gitug01.filmpgraphy.domain.repo.FilmRepo
 import com.gitug01.filmpgraphy.ui.FilmsAdapter
+import java.util.concurrent.LinkedBlockingQueue
 
 
 private val REQUEST_CODE_TOP = "popular"
@@ -77,6 +79,7 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
         prepareToWorkWithRecyclerView()
         addFilmsOnMainScreen()
 
+
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -132,12 +135,21 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
 
     override fun onItemClicked(filmEntity: FilmEntity) {
         Toast.makeText(context, "Toast", Toast.LENGTH_SHORT).show()
+        val queue = LinkedBlockingQueue<String>()
+        Thread {
+            if (workInRoom?.exist(filmEntity.original_title)!!) {
+                queue.put(workInRoom?.getNoteEntity(filmEntity))
+            } else {
+                queue.put("Your note...")
+            }
+        }.start()
 
         val filmFragment: FilmFragment = FilmFragment().newInstance(
             filmEntity.poster_path,
             filmEntity.release_date,
             filmEntity.vote_average,
-            filmEntity.original_title
+            filmEntity.original_title,
+            queue.take()
         )
 
         parentFragmentManager.beginTransaction()
@@ -188,6 +200,8 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
 
     interface WorkInRoom {
         fun addOrUpdate(filmEntity: FilmEntity, note: String)
+        fun exist(filmName: String): Boolean
+        fun getNoteEntity(filmEntity: FilmEntity): String
         fun delete(filmEntity: FilmEntity)
         fun clear()
     }

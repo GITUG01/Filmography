@@ -1,7 +1,11 @@
 package com.gitug01.filmpgraphy.ui.main
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.util.Log
 import android.view.WindowManager
 import android.widget.EditText
 import androidx.annotation.IdRes
@@ -9,26 +13,19 @@ import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.gitug01.filmpgraphy.R
+import com.gitug01.filmpgraphy.data.RoomDb.NoteEntity
+import com.gitug01.filmpgraphy.data.RoomDb.NoteRepo
 import com.gitug01.filmpgraphy.data.net.apps
 import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.domain.repo.DBFilmRepo
 import com.gitug01.filmpgraphy.ui.screens.MainFragment
-import android.os.VibrationEffect
-
-import android.os.Build
-
-import android.os.Vibrator
-import android.util.Log
-import com.gitug01.filmpgraphy.data.RoomDb.NoteEntity
-import com.gitug01.filmpgraphy.data.RoomDb.NoteRepo
 
 
 class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
     MainFragment.SetDataToNowFilms,
     MainFragment.SetDataToForYouFilms,
     MainFragment.SetDataToSoonFilms,
-    MainFragment.WorkInRoom
-{
+    MainFragment.WorkInRoom {
 
     private val API_KEY = "4d8766a8247a32c87963478c66ea350b"
 
@@ -39,10 +36,11 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
     private val REQUEST_CODE_SOON = "upcoming"
     private val REQUEST_CODE_RATED = "top_rated"
 
-    val KEY_NAME = "NAME"
+    val KEY_NAME = "name"
     val KEY_RATING = "rating"
     val KEY_YEAR = "year"
     val KEY_IMAGE = "image"
+    val KEY_NOTE = "note"
     val DATA_T0_FILM_FRAGMENT = "data_toFilm_fragment"
 
     private var editText: EditText? = null
@@ -98,7 +96,16 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
     override fun addOrUpdate(filmEntity: FilmEntity, note: String) {
         noteRepo.addOrUpdate(NoteEntity(0, filmEntity.original_title, note))
         val s = noteRepo.getAllFilms()
-        Log.d("@@@", s.toString())
+        val f = noteRepo.get(filmEntity.original_title)
+        Log.d("@@@", "$s/n$f")
+    }
+
+    override fun exist(filmName: String): Boolean {
+        return noteRepo.exist(filmName)
+    }
+
+    override fun getNoteEntity(filmEntity: FilmEntity): String {
+        return noteRepo.get(filmEntity.original_title)!!.note
     }
 
     override fun delete(filmEntity: FilmEntity) {

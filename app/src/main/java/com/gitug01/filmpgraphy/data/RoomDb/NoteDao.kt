@@ -1,5 +1,6 @@
 package com.gitug01.filmpgraphy.data.RoomDb
 
+import androidx.annotation.Nullable
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
 
@@ -14,6 +15,9 @@ interface NoteDao {
     @Query("SELECT * FROM table_name WHERE film_name = :name")
     fun getFilmByName(name: String): NoteEntity
 
+    @Query("SELECT EXISTS (SELECT 1 FROM table_name WHERE film_name = :name)")
+    fun exists(name: String): Boolean
+
     @Query("SELECT * FROM table_name")
     fun getAll(): List<NoteEntity>
 
@@ -25,7 +29,7 @@ interface NoteDao {
 
     @Transaction
     fun addOrUpdate(noteEntity: NoteEntity) {
-        if (getFilmByName(noteEntity.filmName) == null) {
+        if (exists(noteEntity.filmName)) {
             add(noteEntity)
         } else {
             update(noteEntity.note, noteEntity.filmName)

@@ -1,6 +1,7 @@
 package com.gitug01.filmpgraphy.data.RoomDb
 
 import android.content.Context
+import androidx.annotation.Nullable
 import androidx.room.Room
 
 class RoomNoteRepoImpl(context: Context) : NoteRepo {
@@ -14,6 +15,11 @@ class RoomNoteRepoImpl(context: Context) : NoteRepo {
         noteDao.add(noteEntity)
     }
 
+    override fun exist(filmName: String): Boolean {
+        return noteDao.exists(filmName)
+    }
+
+    @Nullable
     override fun get(filmName: String): NoteEntity {
         return noteDao.getFilmByName(filmName)
     }
