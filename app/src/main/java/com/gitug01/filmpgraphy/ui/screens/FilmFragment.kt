@@ -3,11 +3,14 @@ package com.gitug01.filmpgraphy.ui.screens
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.gitug01.filmpgraphy.R
@@ -81,4 +84,7 @@ class FilmFragment : Fragment() {
         noteEt = view.findViewById(R.id.note_et)
     }
 
+    interface FilmFragmentWorkWithRoom{
+        fun addOrUpdate(filmEntity: FilmEntity, note: String)
+    }
 }

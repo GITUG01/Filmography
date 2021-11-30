@@ -18,6 +18,7 @@ import com.gitug01.filmpgraphy.data.RoomDb.NoteRepo
 import com.gitug01.filmpgraphy.data.net.apps
 import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.domain.repo.DBFilmRepo
+import com.gitug01.filmpgraphy.ui.screens.FilmFragment
 import com.gitug01.filmpgraphy.ui.screens.MainFragment
 
 
@@ -25,7 +26,8 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
     MainFragment.SetDataToNowFilms,
     MainFragment.SetDataToForYouFilms,
     MainFragment.SetDataToSoonFilms,
-    MainFragment.WorkInRoom {
+    MainFragment.WorkInRoom,
+    FilmFragment.FilmFragmentWorkWithRoom {
 
     private val API_KEY = "4d8766a8247a32c87963478c66ea350b"
 
@@ -115,5 +117,6 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
     override fun clear() {
         TODO("Not yet implemented")
     }
+
 
 }
