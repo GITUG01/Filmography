@@ -1,15 +1,18 @@
 package com.gitug01.filmpgraphy.ui.screens
 
+import android.Manifest
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
-import androidx.annotation.Nullable
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.core.content.PermissionChecker
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -79,7 +82,6 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
         prepareToWorkWithRecyclerView()
         addFilmsOnMainScreen()
 
-
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -89,6 +91,7 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
         recyclerView02 = view?.findViewById(R.id.main_recycler2)
         recyclerView03 = view?.findViewById(R.id.main_recycler3)
         recyclerView04 = view?.findViewById(R.id.main_recycler4)
+//        checkBox = view?.findViewById(R.id.checkbox_show_mapp)
     }
 
     fun prepareToWorkWithRecyclerView() {

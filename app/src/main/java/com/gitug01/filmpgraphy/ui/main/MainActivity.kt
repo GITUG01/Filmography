@@ -11,6 +11,7 @@ import android.widget.EditText
 import androidx.annotation.IdRes
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.gitug01.filmpgraphy.R
 import com.gitug01.filmpgraphy.data.RoomDb.NoteEntity
@@ -20,6 +21,7 @@ import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.domain.repo.DBFilmRepo
 import com.gitug01.filmpgraphy.ui.screens.FilmFragment
 import com.gitug01.filmpgraphy.ui.screens.MainFragment
+import java.util.jar.Manifest
 
 
 class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
@@ -44,6 +46,7 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
     val KEY_IMAGE = "image"
     val KEY_NOTE = "note"
     val DATA_T0_FILM_FRAGMENT = "data_toFilm_fragment"
+//    private val targetPermission = android.Manifest.permission.ACCESS_FINE_LOCATION
 
     private var editText: EditText? = null
     private val noteRepo: NoteRepo by lazy { apps.noteRepo }
@@ -55,6 +58,8 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
         editText?.findViewById<EditText>(R.id.title_edit_text)
 
         replaceFragment(R.id.fragments_container, MainFragment(), false)
+
+//        ActivityCompat.requestPermissions(this, arrayOf(targetPermission), 1122)
 
         this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
     }

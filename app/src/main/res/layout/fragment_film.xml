@@ -176,7 +176,11 @@
 
         </androidx.cardview.widget.CardView>
 
-
+        <CheckBox
+            android:id="@+id/checkbox_show_mapp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="show map"/>
 
     </LinearLayout>
 
