@@ -11,7 +11,6 @@ import android.widget.EditText
 import androidx.annotation.IdRes
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.gitug01.filmpgraphy.R
 import com.gitug01.filmpgraphy.data.RoomDb.NoteEntity
@@ -21,7 +20,16 @@ import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.domain.repo.DBFilmRepo
 import com.gitug01.filmpgraphy.ui.screens.FilmFragment
 import com.gitug01.filmpgraphy.ui.screens.MainFragment
-import java.util.jar.Manifest
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.yandex.mapkit.Animation
+import com.yandex.mapkit.MapKitFactory
+import com.yandex.mapkit.geometry.Point
+import com.yandex.mapkit.map.CameraPosition
+import com.yandex.mapkit.mapview.MapView
 
 
 class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
@@ -46,20 +54,23 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
     val KEY_IMAGE = "image"
     val KEY_NOTE = "note"
     val DATA_T0_FILM_FRAGMENT = "data_toFilm_fragment"
-//    private val targetPermission = android.Manifest.permission.ACCESS_FINE_LOCATION
 
     private var editText: EditText? = null
     private val noteRepo: NoteRepo by lazy { apps.noteRepo }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         setContentView(R.layout.activity_main)
+
 
         editText?.findViewById<EditText>(R.id.title_edit_text)
 
         replaceFragment(R.id.fragments_container, MainFragment(), false)
 
-//        ActivityCompat.requestPermissions(this, arrayOf(targetPermission), 1122)
+
 
         this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
     }
@@ -122,6 +133,5 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
     override fun clear() {
         TODO("Not yet implemented")
     }
-
 
 }

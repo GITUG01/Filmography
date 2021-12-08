@@ -14,6 +14,17 @@ import com.bumptech.glide.Glide
 import com.gitug01.filmpgraphy.R
 import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.ui.main.MainActivity
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.yandex.mapkit.Animation
+import com.yandex.mapkit.MapKitFactory
+import com.yandex.mapkit.geometry.Point
+import com.yandex.mapkit.map.CameraPosition
+import com.yandex.mapkit.mapview.MapView
+
 
 class FilmFragment : Fragment() {
 
@@ -31,12 +42,9 @@ class FilmFragment : Fragment() {
     private var noteEt: EditText? = null
     private var checkBox: CheckBox? = null
     private val targetPermission = Manifest.permission.ACCESS_FINE_LOCATION
+    private var linearLayout: LinearLayout? = null
 
-//    private val resultCheckingPermission =
-//        ContextCompat.checkSelfPermission(
-//            requireContext(),
-//            Manifest.permission.ACCESS_FINE_LOCATION
-//        ) == PermissionChecker.PERMISSION_GRANTED
+    var mapView: MapView? = null
 
     fun newInstance(
         image: String,
@@ -62,14 +70,27 @@ class FilmFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        MapKitFactory.setApiKey("00e0ef93-5841-4a18-ab84-57d74ce5d841")
+        MapKitFactory.initialize(context)
+
         return inflater.inflate(R.layout.fragment_film, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        mapView = view.findViewById(R.id.mapview)
+        mapView?.map?.move(
+            CameraPosition(Point(55.751574, 37.573856), 11.0f, 0.0f, 0.0f),
+            Animation(Animation.Type.SMOOTH, 0f),
+            null
+        )
+
         init(view)
         assignmentValues()
         showMap()
+
+
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -82,6 +103,8 @@ class FilmFragment : Fragment() {
         picture = view.findViewById(R.id.fragment_film_image)
         noteEt = view.findViewById(R.id.note_et)
         checkBox = view.findViewById(R.id.checkbox_show_mapp)
+        linearLayout = view.findViewById(R.id.main_layout)
+
     }
 
     fun assignmentValues() {
@@ -113,6 +136,7 @@ class FilmFragment : Fragment() {
         }
     }
 
+
     private fun checkingPermission(): Boolean {
         return ContextCompat.checkSelfPermission(
             requireContext(),
@@ -123,5 +147,17 @@ class FilmFragment : Fragment() {
 
     interface FilmFragmentWorkWithRoom {
         fun addOrUpdate(filmEntity: FilmEntity, note: String)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mapView?.onStart();
+        MapKitFactory.getInstance().onStart();
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mapView?.onStop();
+        MapKitFactory.getInstance().onStop();
     }
 }
