@@ -14,15 +14,7 @@ import com.bumptech.glide.Glide
 import com.gitug01.filmpgraphy.R
 import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.ui.main.MainActivity
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
-import com.yandex.mapkit.geometry.Point
-import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.mapview.MapView
 
 
@@ -74,28 +66,29 @@ class FilmFragment : Fragment() {
         MapKitFactory.setApiKey("00e0ef93-5841-4a18-ab84-57d74ce5d841")
         MapKitFactory.initialize(context)
 
+
         return inflater.inflate(R.layout.fragment_film, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        mapView = view.findViewById(R.id.mapview)
-        mapView?.map?.move(
-            CameraPosition(Point(55.751574, 37.573856), 11.0f, 0.0f, 0.0f),
-            Animation(Animation.Type.SMOOTH, 0f),
-            null
-        )
+        requestPermissions(arrayOf(targetPermission), 1122)
 
         init(view)
         assignmentValues()
-        showMap()
+        showOrHideMap()
 
 
+//        mapView?.map?.move(
+//            CameraPosition(Point(55.751574, 37.573856), 11.0f, 0.0f, 0.0f),
+//            Animation(Animation.Type.SMOOTH, 0f),
+//            null
+//        )
 
         super.onViewCreated(view, savedInstanceState)
     }
 
     private fun init(view: View) {
+        mapView = view.findViewById(R.id.mapview)
         actors = view.findViewById(R.id.actors)
         title = view.findViewById(R.id.title_description)
         yearDescription = view.findViewById(R.id.year_description)
@@ -121,18 +114,12 @@ class FilmFragment : Fragment() {
         noteEt?.setText(arguments?.getString(MainActivity().KEY_NOTE))
     }
 
-    fun showMap() {
+    fun showOrHideMap() {
 
         checkBox?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                if (checkingPermission()) {
-                    Toast.makeText(requireContext(), "Showing map", Toast.LENGTH_SHORT).show()
-                } else {
-                    requestPermissions(arrayOf(targetPermission), 1122)
-                }
-            } else {
-                Toast.makeText(requireContext(), "Not to showing map", Toast.LENGTH_SHORT).show()
-            }
+                if (checkingPermission()) mapView?.visibility = View.VISIBLE
+            } else mapView?.visibility = View.INVISIBLE
         }
     }
 
@@ -144,20 +131,29 @@ class FilmFragment : Fragment() {
         ) == PermissionChecker.PERMISSION_GRANTED
     }
 
+    private fun checkingCheckbox() {
+        when (checkBox?.isChecked) {
+            true -> mapView?.visibility = View.VISIBLE
+            false -> mapView?.visibility = View.INVISIBLE
+        }
+    }
 
     interface FilmFragmentWorkWithRoom {
         fun addOrUpdate(filmEntity: FilmEntity, note: String)
     }
 
+
     override fun onStart() {
         super.onStart()
-        mapView?.onStart();
-        MapKitFactory.getInstance().onStart();
+        mapView?.onStart()
+        checkingCheckbox()
+
+        MapKitFactory.getInstance().onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        mapView?.onStop();
-        MapKitFactory.getInstance().onStop();
+        mapView?.onStop()
+        MapKitFactory.getInstance().onStop()
     }
 }
