@@ -1,8 +1,10 @@
 package com.gitug01.filmpgraphy.ui.screens
 
 import android.Manifest
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +19,7 @@ import com.gitug01.filmpgraphy.ui.main.MainActivity
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.mapview.MapView
 
+private const val CHECKBOX_KEY = "checkbox_key"
 
 class FilmFragment : Fragment() {
 
@@ -35,8 +38,8 @@ class FilmFragment : Fragment() {
     private var checkBox: CheckBox? = null
     private val targetPermission = Manifest.permission.ACCESS_FINE_LOCATION
     private var linearLayout: LinearLayout? = null
-
     var mapView: MapView? = null
+    private val preferences: SharedPreferences by lazy { requireActivity().getPreferences(0) }
 
     fun newInstance(
         image: String,
@@ -149,11 +152,18 @@ class FilmFragment : Fragment() {
         checkingCheckbox()
 
         MapKitFactory.getInstance().onStart()
+
+        checkBox!!.isChecked = preferences.getBoolean(CHECKBOX_KEY, false)
     }
 
     override fun onStop() {
         super.onStop()
         mapView?.onStop()
         MapKitFactory.getInstance().onStop()
+
+        preferences.edit().let {
+            it.putBoolean(CHECKBOX_KEY, checkBox!!.isChecked)
+            it.commit()
+        }
     }
 }

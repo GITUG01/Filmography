@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
     private var editText: EditText? = null
     private val noteRepo: NoteRepo by lazy { apps.noteRepo }
 
+val  l: Int = MODE_PRIVATE
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
