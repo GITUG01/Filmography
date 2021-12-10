@@ -1,14 +1,16 @@
 package com.gitug01.filmpgraphy.ui.screens
 
 import android.Manifest
+import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.fragment.app.Fragment
@@ -16,10 +18,14 @@ import com.bumptech.glide.Glide
 import com.gitug01.filmpgraphy.R
 import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.ui.main.MainActivity
+import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
+import com.yandex.mapkit.geometry.Point
+import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.mapview.MapView
 
 private const val CHECKBOX_KEY = "checkbox_key"
+private const val LOCATION_SERVICE = "location"
 
 class FilmFragment : Fragment() {
 
@@ -37,9 +43,11 @@ class FilmFragment : Fragment() {
     private var noteEt: EditText? = null
     private var checkBox: CheckBox? = null
     private val targetPermission = Manifest.permission.ACCESS_FINE_LOCATION
+    private val secondTargetPermission = Manifest.permission.ACCESS_COARSE_LOCATION
     private var linearLayout: LinearLayout? = null
     var mapView: MapView? = null
     private val preferences: SharedPreferences by lazy { requireActivity().getPreferences(0) }
+    private var gpsLocation: GpsLocation? = null
 
     fun newInstance(
         image: String,
@@ -60,32 +68,28 @@ class FilmFragment : Fragment() {
         return f
     }
 
+    override fun onAttach(context: Context) {
+        this.gpsLocation = context as GpsLocation
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        MapKitFactory.setApiKey("00e0ef93-5841-4a18-ab84-57d74ce5d841")
-        MapKitFactory.initialize(context)
 
 
         return inflater.inflate(R.layout.fragment_film, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        requestPermissions(arrayOf(targetPermission), 1122)
 
         init(view)
         assignmentValues()
         showOrHideMap()
 
-
-//        mapView?.map?.move(
-//            CameraPosition(Point(55.751574, 37.573856), 11.0f, 0.0f, 0.0f),
-//            Animation(Animation.Type.SMOOTH, 0f),
-//            null
-//        )
+//        getGpsPosition()
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -121,9 +125,59 @@ class FilmFragment : Fragment() {
 
         checkBox?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                if (checkingPermission()) mapView?.visibility = View.VISIBLE
+                if (checkingPermission()) {
+                    mapView?.visibility = View.VISIBLE
+                    setMapCameraPosition(55.751574, 37.573856)
+                } else {
+                    requestPermissions(arrayOf(targetPermission), 1122)
+                    showOrHideMap()
+                }
             } else mapView?.visibility = View.INVISIBLE
         }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+
+        if (checkingPermission()) mapView?.visibility = View.VISIBLE
+
+        val a = requestCode
+        val b = permissions
+        val c = grantResults
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    private fun setMapCameraPosition(latitude: Double, longitude: Double) {
+        mapView?.map?.move(
+            CameraPosition(Point(latitude, longitude), 11.0f, 0.0f, 0.0f),
+            Animation(Animation.Type.SMOOTH, 0f),
+            null
+        )
+    }
+
+    private fun getGpsPosition() {
+        when (PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ), ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) -> {
+            }
+            else -> {
+                requestPermissions(arrayOf(targetPermission), 1122)
+                requestPermissions(arrayOf(secondTargetPermission), 1122)
+            }
+        }
+//        val location = gpsLocation?.getLocation()
+//            ?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+//
+//        val a = location?.latitude
+//        val b = location?.longitude
     }
 
 
@@ -165,5 +219,9 @@ class FilmFragment : Fragment() {
             it.putBoolean(CHECKBOX_KEY, checkBox!!.isChecked)
             it.commit()
         }
+    }
+
+    interface GpsLocation {
+        fun getLocation(): String
     }
 }

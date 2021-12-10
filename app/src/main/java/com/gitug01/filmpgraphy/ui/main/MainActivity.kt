@@ -1,6 +1,11 @@
 package com.gitug01.filmpgraphy.ui.main
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.location.Location
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
@@ -8,8 +13,10 @@ import android.os.Vibrator
 import android.util.Log
 import android.view.WindowManager
 import android.widget.EditText
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.IdRes
 import androidx.annotation.NonNull
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.gitug01.filmpgraphy.R
@@ -20,16 +27,7 @@ import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.domain.repo.DBFilmRepo
 import com.gitug01.filmpgraphy.ui.screens.FilmFragment
 import com.gitug01.filmpgraphy.ui.screens.MainFragment
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
-import com.yandex.mapkit.geometry.Point
-import com.yandex.mapkit.map.CameraPosition
-import com.yandex.mapkit.mapview.MapView
 
 
 class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
@@ -37,7 +35,8 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
     MainFragment.SetDataToForYouFilms,
     MainFragment.SetDataToSoonFilms,
     MainFragment.WorkInRoom,
-    FilmFragment.FilmFragmentWorkWithRoom {
+    FilmFragment.FilmFragmentWorkWithRoom,
+    FilmFragment.GpsLocation {
 
     private val API_KEY = "4d8766a8247a32c87963478c66ea350b"
 
@@ -55,26 +54,34 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
     val KEY_NOTE = "note"
     val DATA_T0_FILM_FRAGMENT = "data_toFilm_fragment"
 
+
+    private val targetPermission = Manifest.permission.ACCESS_FINE_LOCATION
+    private val secondTargetPermission = Manifest.permission.ACCESS_COARSE_LOCATION
+
+    private val permissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
+
     private var editText: EditText? = null
     private val noteRepo: NoteRepo by lazy { apps.noteRepo }
 
-val  l: Int = MODE_PRIVATE
+    val l = LOCATION_SERVICE
 
+    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        MapKitFactory.setApiKey("00e0ef93-5841-4a18-ab84-57d74ce5d841")
+        MapKitFactory.initialize(this)
 
         setContentView(R.layout.activity_main)
-
 
         editText?.findViewById<EditText>(R.id.title_edit_text)
 
         replaceFragment(R.id.fragments_container, MainFragment(), false)
 
-
-
         this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
     }
+
 
     private fun replaceFragment(
         @IdRes containerViewId: Int,
@@ -135,4 +142,21 @@ val  l: Int = MODE_PRIVATE
         TODO("Not yet implemented")
     }
 
+
+        @SuppressLint("MissingPermission")
+    @RequiresApi(Build.VERSION_CODES.M)
+    override fun getLocation(): String {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(arrayOf(targetPermission), 1122)
+        }
+        requestPermissions(arrayOf(secondTargetPermission), 1122)
+
+        val a = getSystemService(LOCATION_SERVICE) as LocationManager
+        val b = a.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        val string = b?.let {
+            "[${it.latitude}, ${it.longitude}]"
+        }
+        return string!!
+    }
 }
