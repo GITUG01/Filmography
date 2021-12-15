@@ -23,6 +23,8 @@ import com.gitug01.filmpgraphy.domain.entity.OnFilmClickListener
 import com.gitug01.filmpgraphy.domain.entity.OnLongFilmClickListener
 import com.gitug01.filmpgraphy.domain.repo.FilmRepo
 import com.gitug01.filmpgraphy.ui.FilmsAdapter
+import kotlinx.coroutines.*
+import okhttp3.Dispatcher
 import java.util.concurrent.LinkedBlockingQueue
 
 
@@ -117,6 +119,7 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
     }
 
     fun addFilmsOnMainScreen() {
+
         Thread {
 
             val r = setDataToTopFilms!!.setDataTop(REQUEST_CODE_TOP)

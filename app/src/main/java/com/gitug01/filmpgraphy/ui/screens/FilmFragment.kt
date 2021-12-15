@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -144,9 +145,6 @@ class FilmFragment : Fragment() {
 
         if (checkingPermission()) mapView?.visibility = View.VISIBLE
 
-        val a = requestCode
-        val b = permissions
-        val c = grantResults
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
@@ -156,28 +154,6 @@ class FilmFragment : Fragment() {
             Animation(Animation.Type.SMOOTH, 0f),
             null
         )
-    }
-
-    private fun getGpsPosition() {
-        when (PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ), ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) -> {
-            }
-            else -> {
-                requestPermissions(arrayOf(targetPermission), 1122)
-                requestPermissions(arrayOf(secondTargetPermission), 1122)
-            }
-        }
-//        val location = gpsLocation?.getLocation()
-//            ?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-//
-//        val a = location?.latitude
-//        val b = location?.longitude
     }
 
 

@@ -53,7 +53,8 @@ dependencies {
     // Yandex
     implementation 'com.yandex.android:maps.mobile:4.0.0-lite'
 
-    // Google Map
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-RC2"
 
 
     implementation 'androidx.core:core-ktx:1.7.0'

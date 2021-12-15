@@ -58,13 +58,9 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
     private val targetPermission = Manifest.permission.ACCESS_FINE_LOCATION
     private val secondTargetPermission = Manifest.permission.ACCESS_COARSE_LOCATION
 
-    private val permissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
 
     private var editText: EditText? = null
     private val noteRepo: NoteRepo by lazy { apps.noteRepo }
-
-    val l = LOCATION_SERVICE
 
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -156,7 +152,7 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
         val b = a.getLastKnownLocation(LocationManager.GPS_PROVIDER)
         val string = b?.let {
             "[${it.latitude}, ${it.longitude}]"
-        }
-        return string!!
+        } ?: "NULL"
+        return string
     }
 }
