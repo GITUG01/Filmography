@@ -5,6 +5,7 @@ import com.gitug01.filmpgraphy.data.net.entity.O
 import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.domain.repo.DBFilmRepo
 import com.google.gson.Gson
+import kotlinx.coroutines.Deferred
 import org.jetbrains.annotations.TestOnly
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -16,7 +17,7 @@ class WebDBFilmRepoImpl : DBFilmRepo {
 
         val gson by lazy { Gson() }
 
-        val result = emptyList<FilmEntity>().toMutableList()
+        var result = emptyList<FilmEntity>().toMutableList()
 
         var connection: HttpURLConnection? = null
         try {
@@ -42,6 +43,10 @@ class WebDBFilmRepoImpl : DBFilmRepo {
         }
 
         return result
+    }
+
+    override suspend fun getFilmsForUserAsync(requestCode: String, apiKey: String): List<FilmEntity> {
+        TODO("Not yet implemented")
     }
 
     private fun getUrl(requestCode: String) =

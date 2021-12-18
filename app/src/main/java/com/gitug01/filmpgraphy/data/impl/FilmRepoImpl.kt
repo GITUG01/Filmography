@@ -1,10 +1,9 @@
 package com.gitug01.filmpgraphy.data.impl
 
-import com.gitug01.filmpgraphy.R
 import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.domain.repo.FilmRepo
 
-class FilmRepoImpl() : FilmRepo{
+class FilmRepoImpl() : FilmRepo {
 
 
     var counter: Int = 0

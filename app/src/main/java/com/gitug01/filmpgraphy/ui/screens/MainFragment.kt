@@ -1,18 +1,14 @@
 package com.gitug01.filmpgraphy.ui.screens
 
-import android.Manifest
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
-import androidx.core.content.PermissionChecker
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,8 +19,10 @@ import com.gitug01.filmpgraphy.domain.entity.OnFilmClickListener
 import com.gitug01.filmpgraphy.domain.entity.OnLongFilmClickListener
 import com.gitug01.filmpgraphy.domain.repo.FilmRepo
 import com.gitug01.filmpgraphy.ui.FilmsAdapter
-import kotlinx.coroutines.*
-import okhttp3.Dispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.concurrent.LinkedBlockingQueue
 
 
@@ -50,6 +48,10 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
     private var setDataToForYouFilms: SetDataToForYouFilms? = null
     private var setDataToSoonFilms: SetDataToSoonFilms? = null
     private var workInRoom: WorkInRoom? = null
+    private var list: List<FilmEntity>? = null
+    private var list1: List<FilmEntity>? = null
+    private var list2: List<FilmEntity>? = null
+    private var list3: List<FilmEntity>? = null
 
 
     override fun onAttach(context: Context) {
@@ -83,6 +85,7 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
         init()
         prepareToWorkWithRecyclerView()
         addFilmsOnMainScreen()
+
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -120,21 +123,19 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
 
     fun addFilmsOnMainScreen() {
 
-        Thread {
-
+        CoroutineScope(Dispatchers.IO).launch {
             val r = setDataToTopFilms!!.setDataTop(REQUEST_CODE_TOP)
+            val r3 = setDataToSoonFilms!!.setDataSoon(REQUEST_CODE_SOON)
             val r1 = setDataToNowFilms!!.setDataNow(REQUEST_CODE_NOW)
             val r2 = setDataToForYouFilms!!.setDataForYou(REQUEST_CODE_RATED)
-            val r3 = setDataToSoonFilms!!.setDataSoon(REQUEST_CODE_SOON)
 
-            activity?.runOnUiThread {
+            withContext(Dispatchers.Main) {
                 adapter02.setData(r)
                 adapter03.setData(r1)
                 adapter.setData(r2)
                 adapter04.setData(r3)
             }
-
-        }.start()
+        }
 
     }
 
@@ -166,19 +167,19 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
 
 
     interface SetDataToTopFilms {
-        fun setDataTop(requestCode: String): List<FilmEntity>
+        suspend fun setDataTop(requestCode: String): List<FilmEntity>
     }
 
     interface SetDataToNowFilms {
-        fun setDataNow(requestCode: String): List<FilmEntity>
+        suspend fun setDataNow(requestCode: String): List<FilmEntity>
     }
 
     interface SetDataToForYouFilms {
-        fun setDataForYou(requestCode: String): List<FilmEntity>
+        suspend fun setDataForYou(requestCode: String): List<FilmEntity>
     }
 
     interface SetDataToSoonFilms {
-        fun setDataSoon(requestCode: String): List<FilmEntity>
+        suspend fun setDataSoon(requestCode: String): List<FilmEntity>
     }
 
     override fun onLongItemClick(filmEntity: FilmEntity) {

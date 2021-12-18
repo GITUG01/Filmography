@@ -3,8 +3,6 @@ package com.gitug01.filmpgraphy.ui.main
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.PackageManager.PERMISSION_GRANTED
-import android.location.Location
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
@@ -13,7 +11,6 @@ import android.os.Vibrator
 import android.util.Log
 import android.view.WindowManager
 import android.widget.EditText
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.IdRes
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
@@ -71,6 +68,9 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
 
         setContentView(R.layout.activity_main)
 
+
+
+
         editText?.findViewById<EditText>(R.id.title_edit_text)
 
         replaceFragment(R.id.fragments_container, MainFragment(), false)
@@ -99,20 +99,20 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
         }
     }
 
-    override fun setDataTop(requestCode: String): List<FilmEntity> {
-        return dbFilmRepo.getFilmsForUserSync(requestCode, API_KEY)
+    override suspend fun setDataTop(requestCode: String): List<FilmEntity> {
+        return dbFilmRepo.getFilmsForUserAsync(requestCode, API_KEY)
     }
 
-    override fun setDataForYou(requestCode: String): List<FilmEntity> {
-        return dbFilmRepo.getFilmsForUserSync(requestCode, API_KEY)
+    override suspend fun setDataForYou(requestCode: String): List<FilmEntity> {
+        return dbFilmRepo.getFilmsForUserAsync(requestCode, API_KEY)
     }
 
-    override fun setDataNow(requestCode: String): List<FilmEntity> {
-        return dbFilmRepo.getFilmsForUserSync(requestCode, API_KEY)
+    override suspend fun setDataNow(requestCode: String): List<FilmEntity> {
+        return dbFilmRepo.getFilmsForUserAsync(requestCode, API_KEY)
     }
 
-    override fun setDataSoon(requestCode: String): List<FilmEntity> {
-        return dbFilmRepo.getFilmsForUserSync(requestCode, API_KEY)
+    override suspend fun setDataSoon(requestCode: String): List<FilmEntity> {
+        return dbFilmRepo.getFilmsForUserAsync(requestCode, API_KEY)
     }
 
     override fun addOrUpdate(filmEntity: FilmEntity, note: String) {
@@ -139,7 +139,7 @@ class MainActivity : AppCompatActivity(), MainFragment.SetDataToTopFilms,
     }
 
 
-        @SuppressLint("MissingPermission")
+    @SuppressLint("MissingPermission")
     @RequiresApi(Build.VERSION_CODES.M)
     override fun getLocation(): String {
 
