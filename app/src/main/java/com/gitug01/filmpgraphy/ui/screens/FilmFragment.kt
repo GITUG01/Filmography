@@ -3,15 +3,11 @@ package com.gitug01.filmpgraphy.ui.screens
 import android.Manifest
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
-import android.location.LocationManager
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.fragment.app.Fragment
@@ -19,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.gitug01.filmpgraphy.R
 import com.gitug01.filmpgraphy.domain.entity.FilmEntity
 import com.gitug01.filmpgraphy.ui.main.MainActivity
+import com.squareup.picasso.Picasso
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
@@ -26,14 +23,8 @@ import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.mapview.MapView
 
 private const val CHECKBOX_KEY = "checkbox_key"
-private const val LOCATION_SERVICE = "location"
 
 class FilmFragment : Fragment() {
-
-    private val videoPatch =
-        "android.resource://" + "com.gitug01.filmpgraphy" + "/" + R.raw.film_trailer
-    private val uri: Uri = Uri.parse(videoPatch)
-    private var video: VideoView? = null
 
 
     private var title: TextView? = null
@@ -44,7 +35,6 @@ class FilmFragment : Fragment() {
     private var noteEt: EditText? = null
     private var checkBox: CheckBox? = null
     private val targetPermission = Manifest.permission.ACCESS_FINE_LOCATION
-    private val secondTargetPermission = Manifest.permission.ACCESS_COARSE_LOCATION
     private var linearLayout: LinearLayout? = null
     var mapView: MapView? = null
     private val preferences: SharedPreferences by lazy { requireActivity().getPreferences(0) }
@@ -80,7 +70,6 @@ class FilmFragment : Fragment() {
     ): View? {
 
 
-
         return inflater.inflate(R.layout.fragment_film, container, false)
     }
 
@@ -108,8 +97,11 @@ class FilmFragment : Fragment() {
 
     }
 
-    fun assignmentValues() {
+    private fun assignmentValues() {
         title?.text = arguments?.getString(MainActivity().KEY_NAME).toString()
+
+//        Picasso.get().load("https://apod.nasa.gov/apod/image/2112/LeonardMeteor_Poole_2250.jpg").into(picture)
+
         Glide
             .with(this)
             .load("https://image.tmdb.org/t/p/w185/" + (arguments?.getString(MainActivity().KEY_IMAGE)))
@@ -122,7 +114,7 @@ class FilmFragment : Fragment() {
         noteEt?.setText(arguments?.getString(MainActivity().KEY_NOTE))
     }
 
-    fun showOrHideMap() {
+    private fun showOrHideMap() {
 
         checkBox?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
