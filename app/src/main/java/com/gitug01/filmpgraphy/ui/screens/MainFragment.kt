@@ -48,10 +48,6 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
     private var setDataToForYouFilms: SetDataToForYouFilms? = null
     private var setDataToSoonFilms: SetDataToSoonFilms? = null
     private var workInRoom: WorkInRoom? = null
-    private var list: List<FilmEntity>? = null
-    private var list1: List<FilmEntity>? = null
-    private var list2: List<FilmEntity>? = null
-    private var list3: List<FilmEntity>? = null
 
 
     override fun onAttach(context: Context) {
@@ -119,10 +115,10 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
         adapter02.setData(filmRepo.filmsTop())
         adapter03.setData(filmRepo.filmsSoon())
         adapter04.setData(filmRepo.filmsNow())
+
     }
 
     fun addFilmsOnMainScreen() {
-
         CoroutineScope(Dispatchers.IO).launch {
             val r = setDataToTopFilms!!.setDataTop(REQUEST_CODE_TOP)
             val r3 = setDataToSoonFilms!!.setDataSoon(REQUEST_CODE_SOON)
@@ -136,7 +132,6 @@ class MainFragment : Fragment(), OnFilmClickListener, OnLongFilmClickListener {
                 adapter04.setData(r3)
             }
         }
-
     }
 
 
